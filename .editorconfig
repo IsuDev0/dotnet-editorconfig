@@ -1,7 +1,7 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.2.0 (SemVer)
+#  Version:       v0.3.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-08-17
@@ -88,3 +88,15 @@ indent_size = 2
 # Dockerfiles
 [{Dockerfile,Dockerfile.*}]
 indent_size = 2
+
+
+
+# File Header Template
+# =========================================
+[*.{cs,csx,cake}]
+
+# File headers are disabled by default.
+# To enable file headers, uncomment and customize the template below.
+#
+# Example:
+# file_header_template = Copyright (c) <YEAR> <AUTHOR>\nLicensed under the <LICENSE>
