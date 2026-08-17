@@ -1,0 +1,33 @@
+# ==============================================================================
+#   .editorconfig — C#/.NET Code Style
+# ==============================================================================
+#  Version:       v0.1.0 (SemVer)
+#  Target:        C# 14+ / .NET 10+
+#  Environment:   Visual Studio 2026+
+#  Updated:       2026-08-17
+#
+#  Author:
+#    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
+#
+#  Purpose:
+#    Defines strict, deterministic, and uniform coding standards for .NET 10+.
+#    All rules are enforced via analyzers and treated as constraints.
+#
+#  License: MIT (full license text at bottom of file)
+# ==============================================================================
+
+
+# Root Configuration
+# =========================================
+root = true
+
+
+
+# Global Editor Settings
+# =========================================
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
