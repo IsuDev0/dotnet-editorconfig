@@ -1,7 +1,7 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.1.0 (SemVer)
+#  Version:       v0.2.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-08-17
@@ -31,3 +31,60 @@ end_of_line = lf
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+
+
+# File‑Specific Formatting
+# =========================================
+
+# Solution Files (Legacy .sln)
+[*.sln]
+indent_style = tab
+tab_width = 4
+
+# Solution Files (Modern .slnx)
+[*.slnx]
+indent_style = space
+indent_size = 2
+
+# Project Files (MSBuild)
+[*.{csproj,csproj.user,shproj,projitems,sqlproj,msbuildproj}]
+indent_size = 2
+
+# C# Source Files
+[*.{cs,csx,cake}]
+indent_size = 4
+
+# XML / XAML Files
+[*.{xml,config,props,targets,pubxml,xaml,resx,xsd,nuspec,runsettings,ruleset,vsixmanifest,vsct,edmx,resw,coveragexml}]
+indent_size = 2
+
+# JSON Files
+[*.{json,jsonc,json5}]
+indent_size = 2
+
+# YAML Files
+[*.{yml,yaml}]
+indent_size = 2
+
+# Markdown Files
+[*.{md,mdx}]
+trim_trailing_whitespace = false
+indent_size = 2
+
+# PowerShell Scripts
+[*.{ps1,psm1,psd1}]
+indent_size = 4
+
+# Batch Scripts
+[*.{cmd,bat}]
+end_of_line = crlf
+indent_size = 4
+
+# Shell Scripts
+[*.{sh}]
+indent_size = 2
+
+# Dockerfiles
+[{Dockerfile,Dockerfile.*}]
+indent_size = 2
