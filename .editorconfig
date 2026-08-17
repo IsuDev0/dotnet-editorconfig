@@ -1,7 +1,7 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.5.0 (SemVer)
+#  Version:       v0.6.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-08-18
@@ -282,3 +282,17 @@ csharp_space_between_square_brackets = false
 # Wrapping
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
+
+
+
+# Code Organization
+# =========================================
+[*.{cs,csx,cake}]
+
+# Using Directives
+csharp_using_directive_placement = outside_namespace:warning
+dotnet_sort_system_directives_first = true
+
+# Namespaces
+csharp_style_namespace_declarations = file_scoped:warning
+dotnet_style_namespace_match_folder = true:warning
