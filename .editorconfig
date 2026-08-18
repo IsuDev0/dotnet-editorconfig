@@ -1,7 +1,7 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.6.0 (SemVer)
+#  Version:       v0.7.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-08-18
@@ -296,3 +296,18 @@ dotnet_sort_system_directives_first = true
 # Namespaces
 csharp_style_namespace_declarations = file_scoped:warning
 dotnet_style_namespace_match_folder = true:warning
+
+
+
+# Code Quality
+# =========================================
+[*.{cs,csx,cake}]
+
+# Unused Values & Parameters
+dotnet_code_quality_unused_parameters = all:warning
+csharp_style_unused_value_assignment_preference = discard_variable:suggestion
+csharp_style_unused_value_expression_statement_preference = discard_variable:suggestion
+
+# Suppression Management
+dotnet_remove_unnecessary_suppression_exclusions = none
+dotnet_diagnostic.IDE0079.severity = warning
