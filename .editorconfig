@@ -1,10 +1,10 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.7.0 (SemVer)
+#  Version:       v0.8.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
-#  Updated:       2026-08-18
+#  Updated:       2026-08-20
 #
 #  Author:
 #    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
@@ -311,3 +311,165 @@ csharp_style_unused_value_expression_statement_preference = discard_variable:sug
 # Suppression Management
 dotnet_remove_unnecessary_suppression_exclusions = none
 dotnet_diagnostic.IDE0079.severity = warning
+
+
+
+# Naming Styles
+# =========================================
+[*.{cs,csx,cake}]
+
+# Style: pascal_case_style
+# Format: PascalCase
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# Style: camel_case_style
+# Format: camelCase
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+# Style: underscore_camel_case_style
+# Format: _camelCase
+dotnet_naming_style.underscore_camel_case_style.capitalization  = camel_case
+dotnet_naming_style.underscore_camel_case_style.required_prefix = _
+
+# Style: i_pascal_case_style
+# Format: IPascalCase
+dotnet_naming_style.i_pascal_case_style.capitalization  = pascal_case
+dotnet_naming_style.i_pascal_case_style.required_prefix = I
+
+# Style: t_pascal_case_style
+# Format: TPascalCase
+dotnet_naming_style.t_pascal_case_style.capitalization  = pascal_case
+dotnet_naming_style.t_pascal_case_style.required_prefix = T
+
+
+
+# Naming Rules — Structural
+# =========================================
+[*.{cs,csx,cake}]
+
+# Namespaces
+dotnet_naming_symbols.namespaces_group.applicable_accessibilities = *
+dotnet_naming_symbols.namespaces_group.applicable_kinds = namespace
+
+dotnet_naming_rule.namespaces_must_be_pascal_case.symbols  = namespaces_group
+dotnet_naming_rule.namespaces_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.namespaces_must_be_pascal_case.severity = error
+
+# Types
+dotnet_naming_symbols.types_group.applicable_accessibilities = *
+dotnet_naming_symbols.types_group.applicable_kinds = class, struct, enum, delegate
+
+dotnet_naming_rule.types_must_be_pascal_case.symbols  = types_group
+dotnet_naming_rule.types_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.types_must_be_pascal_case.severity = error
+
+# Interfaces
+dotnet_naming_symbols.interfaces_group.applicable_accessibilities = *
+dotnet_naming_symbols.interfaces_group.applicable_kinds = interface
+
+dotnet_naming_rule.interfaces_must_be_i_pascal_case.symbols  = interfaces_group
+dotnet_naming_rule.interfaces_must_be_i_pascal_case.style    = i_pascal_case_style
+dotnet_naming_rule.interfaces_must_be_i_pascal_case.severity = error
+
+# Generic Type Parameters
+dotnet_naming_symbols.type_parameters_group.applicable_accessibilities = *
+dotnet_naming_symbols.type_parameters_group.applicable_kinds = type_parameter
+
+dotnet_naming_rule.type_parameters_must_be_t_pascal_case.symbols  = type_parameters_group
+dotnet_naming_rule.type_parameters_must_be_t_pascal_case.style    = t_pascal_case_style
+dotnet_naming_rule.type_parameters_must_be_t_pascal_case.severity = error
+
+
+
+# Naming Rules — Class Members
+# =========================================
+[*.{cs,csx,cake}]
+
+# Constant Fields (all accessibilities)
+dotnet_naming_symbols.constant_fields_group.applicable_accessibilities = *
+dotnet_naming_symbols.constant_fields_group.required_modifiers = const
+dotnet_naming_symbols.constant_fields_group.applicable_kinds   = field
+
+dotnet_naming_rule.constant_fields_must_be_pascal_case.symbols  = constant_fields_group
+dotnet_naming_rule.constant_fields_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.constant_fields_must_be_pascal_case.severity = error
+
+# Static Readonly Fields (all accessibilities)
+dotnet_naming_symbols.static_readonly_fields_group.applicable_accessibilities = *
+dotnet_naming_symbols.static_readonly_fields_group.required_modifiers = static, readonly
+dotnet_naming_symbols.static_readonly_fields_group.applicable_kinds   = field
+
+dotnet_naming_rule.static_readonly_fields_must_be_pascal_case.symbols  = static_readonly_fields_group
+dotnet_naming_rule.static_readonly_fields_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.static_readonly_fields_must_be_pascal_case.severity = error
+
+# Private Fields (private instance, private readonly, private static, private protected static)
+dotnet_naming_symbols.private_fields_group.applicable_accessibilities = private, private_protected
+dotnet_naming_symbols.private_fields_group.applicable_kinds   = field
+
+dotnet_naming_rule.private_fields_must_be_underscore_camel_case.symbols  = private_fields_group
+dotnet_naming_rule.private_fields_must_be_underscore_camel_case.style    = underscore_camel_case_style
+dotnet_naming_rule.private_fields_must_be_underscore_camel_case.severity = error
+
+# Properties
+dotnet_naming_symbols.properties_group.applicable_accessibilities = *
+dotnet_naming_symbols.properties_group.applicable_kinds = property
+
+dotnet_naming_rule.properties_must_be_pascal_case.symbols  = properties_group
+dotnet_naming_rule.properties_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.properties_must_be_pascal_case.severity = error
+
+# Methods
+dotnet_naming_symbols.methods_group.applicable_accessibilities = *
+dotnet_naming_symbols.methods_group.applicable_kinds = method
+
+dotnet_naming_rule.methods_must_be_pascal_case.symbols  = methods_group
+dotnet_naming_rule.methods_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.methods_must_be_pascal_case.severity = error
+
+# Events
+dotnet_naming_symbols.events_group.applicable_accessibilities = *
+dotnet_naming_symbols.events_group.applicable_kinds = event
+
+dotnet_naming_rule.events_must_be_pascal_case.symbols  = events_group
+dotnet_naming_rule.events_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.events_must_be_pascal_case.severity = error
+
+
+
+# Naming Rules — Local Scope
+# =========================================
+[*.{cs,csx,cake}]
+
+# Parameters
+dotnet_naming_symbols.parameters_group.applicable_accessibilities = *
+dotnet_naming_symbols.parameters_group.applicable_kinds = parameter
+
+dotnet_naming_rule.parameters_must_be_camel_case.symbols  = parameters_group
+dotnet_naming_rule.parameters_must_be_camel_case.style    = camel_case_style
+dotnet_naming_rule.parameters_must_be_camel_case.severity = error
+
+# Local Constants
+dotnet_naming_symbols.locals_constants_group.applicable_accessibilities = *
+dotnet_naming_symbols.locals_constants_group.required_modifiers = const
+dotnet_naming_symbols.locals_constants_group.applicable_kinds   = local
+
+dotnet_naming_rule.locals_constants_must_be_pascal_case.symbols  = locals_constants_group
+dotnet_naming_rule.locals_constants_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.locals_constants_must_be_pascal_case.severity = error
+
+# Local Variables
+dotnet_naming_symbols.locals_variables_group.applicable_accessibilities = *
+dotnet_naming_symbols.locals_variables_group.applicable_kinds = local
+
+dotnet_naming_rule.locals_variables_must_be_camel_case.symbols  = locals_variables_group
+dotnet_naming_rule.locals_variables_must_be_camel_case.style    = camel_case_style
+dotnet_naming_rule.locals_variables_must_be_camel_case.severity = error
+
+# Local Functions
+dotnet_naming_symbols.local_functions_group.applicable_accessibilities = *
+dotnet_naming_symbols.local_functions_group.applicable_kinds = local_function
+
+dotnet_naming_rule.local_functions_must_be_pascal_case.symbols  = local_functions_group
+dotnet_naming_rule.local_functions_must_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.local_functions_must_be_pascal_case.severity = error
