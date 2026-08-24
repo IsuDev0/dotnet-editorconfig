@@ -1,10 +1,10 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.8.0 (SemVer)
+#  Version:       v0.9.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
-#  Updated:       2026-08-20
+#  Updated:       2026-08-24
 #
 #  Author:
 #    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
@@ -473,3 +473,58 @@ dotnet_naming_symbols.local_functions_group.applicable_kinds = local_function
 dotnet_naming_rule.local_functions_must_be_pascal_case.symbols  = local_functions_group
 dotnet_naming_rule.local_functions_must_be_pascal_case.style    = pascal_case_style
 dotnet_naming_rule.local_functions_must_be_pascal_case.severity = error
+
+
+
+# Code Analysis — Design
+# =========================================
+[*.{cs,csx,cake}]
+
+# Critical Severity
+dotnet_diagnostic.CA1001.severity = error   # Types that own disposable fields should be disposable
+dotnet_diagnostic.CA1002.severity = error   # Do not expose generic lists
+dotnet_diagnostic.CA1012.severity = error   # Abstract types should not have public constructors
+dotnet_diagnostic.CA1018.severity = error   # Mark attributes with AttributeUsageAttribute
+dotnet_diagnostic.CA1019.severity = error   # Define accessors for attribute arguments
+dotnet_diagnostic.CA1031.severity = error   # Do not catch general exception types
+dotnet_diagnostic.CA1032.severity = error   # Implement standard exception constructors
+dotnet_diagnostic.CA1036.severity = error   # Override methods on comparable types
+dotnet_diagnostic.CA1044.severity = error   # Properties should not be write only
+dotnet_diagnostic.CA1050.severity = error   # Declare types in namespaces
+dotnet_diagnostic.CA1051.severity = error   # Do not declare visible instance fields
+dotnet_diagnostic.CA1061.severity = error   # Do not hide base class methods
+dotnet_diagnostic.CA1063.severity = error   # Implement IDisposable correctly
+dotnet_diagnostic.CA1065.severity = error   # Do not raise exceptions in unexpected locations
+dotnet_diagnostic.CA1066.severity = error   # Implement IEquatable when overriding Equals
+dotnet_diagnostic.CA1067.severity = error   # Override Equals when implementing IEquatable
+dotnet_diagnostic.CA1069.severity = error   # Enums should not have duplicate values
+dotnet_diagnostic.CA1070.severity = error   # Do not declare event fields as virtual
+
+# High Severity
+dotnet_diagnostic.CA1005.severity = warning   # Avoid excessive parameters on generic types
+dotnet_diagnostic.CA1008.severity = warning   # Enums should have zero value
+dotnet_diagnostic.CA1010.severity = warning   # Collections should implement generic interface
+dotnet_diagnostic.CA1021.severity = warning   # Avoid out parameters
+dotnet_diagnostic.CA1024.severity = warning   # Use properties where appropriate
+dotnet_diagnostic.CA1027.severity = warning   # Mark enums with FlagsAttribute
+dotnet_diagnostic.CA1034.severity = warning   # Nested types should not be visible
+dotnet_diagnostic.CA1041.severity = warning   # Provide ObsoleteAttribute message
+dotnet_diagnostic.CA1043.severity = warning   # Use integral or string argument for indexers
+dotnet_diagnostic.CA1045.severity = warning   # Do not pass types by reference
+dotnet_diagnostic.CA1046.severity = warning   # Do not overload operator equals on reference types
+dotnet_diagnostic.CA1052.severity = warning   # Static holder types should be Static or NotInheritable
+dotnet_diagnostic.CA1054.severity = warning   # URI parameters should not be strings
+dotnet_diagnostic.CA1055.severity = warning   # URI return values should not be strings
+dotnet_diagnostic.CA1056.severity = warning   # URI properties should not be strings
+dotnet_diagnostic.CA1068.severity = warning   # CancellationToken parameters must come last
+
+# Low Severity
+dotnet_diagnostic.CA1047.severity = suggestion   # Do not declare protected members in sealed types
+
+
+# Additional Analyzer Configurations
+# Additional names treated as valid 'None' values for CA1008
+dotnet_code_quality.CA1008.additional_enum_none_names = None|Unknown|Undefined|Default
+
+# API surface scope for CA1051
+dotnet_code_quality.CA1051.api_surface = public,internal
