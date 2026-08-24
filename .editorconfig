@@ -1,10 +1,10 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.9.0 (SemVer)
+#  Version:       v0.10.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
-#  Updated:       2026-08-24
+#  Updated:       2026-08-25
 #
 #  Author:
 #    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
@@ -528,3 +528,27 @@ dotnet_code_quality.CA1008.additional_enum_none_names = None|Unknown|Undefined|D
 
 # API surface scope for CA1051
 dotnet_code_quality.CA1051.api_surface = public,internal
+
+
+
+# Code Analysis — Maintainability
+# =========================================
+[*.{cs,csx,cake}]
+
+# Critical Severity
+dotnet_diagnostic.CA1507.severity = error   # Use nameof in place of string
+dotnet_diagnostic.CA1508.severity = error   # Avoid dead conditional code
+
+# High Severity
+dotnet_diagnostic.CA1501.severity = warning   # Avoid excessive inheritance
+dotnet_diagnostic.CA1502.severity = warning   # Avoid excessive complexity
+dotnet_diagnostic.CA1505.severity = warning   # Avoid unmaintainable code
+dotnet_diagnostic.CA1506.severity = warning   # Avoid excessive class coupling
+dotnet_diagnostic.CA1514.severity = warning   # Avoid redundant length argument
+dotnet_diagnostic.CA1515.severity = warning   # Consider making public types internal
+
+# Low Severity
+dotnet_diagnostic.CA1510.severity = suggestion   # Use ArgumentNullException throw helper
+dotnet_diagnostic.CA1511.severity = suggestion   # Use ArgumentException throw helper
+dotnet_diagnostic.CA1512.severity = suggestion   # Use ArgumentOutOfRangeException throw helper
+dotnet_diagnostic.CA1513.severity = suggestion   # Use ObjectDisposedException throw helper
