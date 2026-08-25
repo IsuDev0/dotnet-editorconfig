@@ -1,7 +1,7 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.11.0 (SemVer)
+#  Version:       v0.12.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-08-25
@@ -606,3 +606,47 @@ dotnet_code_quality.CA1721.api_surface = all
 dotnet_code_quality.CA1724.api_surface = all
 dotnet_code_quality.CA1725.api_surface = all
 dotnet_code_quality.CA1727.api_surface = all
+
+
+
+# Code Analysis — Performance
+# =========================================
+[*.{cs,csx,cake}]
+
+# Critical Severity
+dotnet_diagnostic.CA1806.severity = error   # Do not ignore method results
+dotnet_diagnostic.CA1819.severity = error   # Properties should not return arrays
+dotnet_diagnostic.CA1825.severity = error   # Avoid zero-length array allocations
+dotnet_diagnostic.CA1827.severity = error   # Do not use Count()/LongCount() when Any() can be used
+dotnet_diagnostic.CA1828.severity = error   # Do not use CountAsync/LongCountAsync when AnyAsync can be used
+dotnet_diagnostic.CA1830.severity = error   # Prefer strongly-typed Append/Insert on StringBuilder
+dotnet_diagnostic.CA1834.severity = error   # Use StringBuilder.Append(char) for single character strings
+dotnet_diagnostic.CA1841.severity = error   # Prefer Dictionary Contains methods
+dotnet_diagnostic.CA1849.severity = error   # Call async methods when in an async method
+dotnet_diagnostic.CA1851.severity = error   # Possible multiple enumerations of IEnumerable collection
+dotnet_diagnostic.CA1853.severity = error   # Unnecessary call to 'Dictionary.ContainsKey(key)'
+dotnet_diagnostic.CA1854.severity = error   # Prefer the IDictionary.TryGetValue(TKey, out TValue) method
+dotnet_diagnostic.CA1858.severity = error   # Use StartsWith instead of IndexOf
+dotnet_diagnostic.CA1864.severity = error   # Prefer the 'IDictionary.TryAdd(TKey, TValue)' method
+dotnet_diagnostic.CA1868.severity = error   # Unnecessary call to 'Contains' for sets
+dotnet_diagnostic.CA1869.severity = error   # Cache and reuse 'JsonSerializerOptions' instances
+dotnet_diagnostic.CA1870.severity = error   # Use a cached 'SearchValues' instance
+dotnet_diagnostic.CA1872.severity = error   # Prefer 'Convert.ToHexString' and 'Convert.ToHexStringLower' over call chains based on 'BitConverter.ToString'
+dotnet_diagnostic.CA1874.severity = error   # Use 'Regex.IsMatch'
+dotnet_diagnostic.CA1875.severity = error   # Use 'Regex.Count'
+dotnet_diagnostic.CA1877.severity = error   # Use 'Path.Combine' or 'Path.Join' overloads
+
+# High Severity
+dotnet_diagnostic.CA1802.severity = warning   # Use Literals Where Appropriate
+dotnet_diagnostic.CA1820.severity = warning   # Test for empty strings using string length
+dotnet_diagnostic.CA1822.severity = warning   # Mark members as static
+dotnet_diagnostic.CA1829.severity = warning   # Use Length/Count property instead of Enumerable.Count method
+dotnet_diagnostic.CA1835.severity = warning   # Prefer the memory-based overloads of ReadAsync/WriteAsync methods
+dotnet_diagnostic.CA1842.severity = warning   # Do not use 'WhenAll' with a single task
+dotnet_diagnostic.CA1843.severity = warning   # Do not use 'WaitAll' with a single task
+dotnet_diagnostic.CA1846.severity = warning   # Prefer AsSpan over Substring
+dotnet_diagnostic.CA1847.severity = warning   # Use String.Contains(char) instead of String.Contains(string) with single characters
+dotnet_diagnostic.CA1848.severity = warning   # Use the LoggerMessage delegates
+dotnet_diagnostic.CA1850.severity = warning   # Prefer static HashData method over ComputeHash
+dotnet_diagnostic.CA1862.severity = warning   # Use the StringComparison method overloads to perform case-insensitive string comparisons
+dotnet_diagnostic.CA1873.severity = warning   # Avoid potentially expensive logging
