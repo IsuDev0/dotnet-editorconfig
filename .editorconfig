@@ -1,7 +1,7 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.13.0 (SemVer)
+#  Version:       v0.14.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-08-25
@@ -678,3 +678,55 @@ dotnet_diagnostic.CA2025.severity = error   # Do not pass 'IDisposable' instance
 # High Severity
 dotnet_diagnostic.CA2009.severity = warning   # Do not call ToImmutableCollection on an ImmutableCollection value
 dotnet_diagnostic.CA2026.severity = warning   # Prefer JsonElement.Parse over JsonDocument.Parse().RootElement
+
+
+
+# Code Analysis — Security
+# =========================================
+[*.{cs,csx,cake}]
+
+# Critical Severity
+dotnet_diagnostic.CA2100.severity = error   # Review SQL queries for security vulnerabilities
+dotnet_diagnostic.CA2119.severity = error   # Seal methods that satisfy private interfaces
+dotnet_diagnostic.CA2153.severity = error   # Avoid handling Corrupted State Exceptions
+dotnet_diagnostic.CA2300.severity = error   # Do not use insecure deserializer BinaryFormatter
+dotnet_diagnostic.CA2305.severity = error   # Do not use insecure deserializer LosFormatter
+dotnet_diagnostic.CA2326.severity = error   # Do not use TypeNameHandling values other than None
+dotnet_diagnostic.CA2327.severity = error   # Do not use insecure JsonSerializerSettings
+dotnet_diagnostic.CA2328.severity = error   # Ensure that JsonSerializerSettings are secure
+dotnet_diagnostic.CA2329.severity = error   # Do not deserialize with JsonSerializer using an insecure configuration
+dotnet_diagnostic.CA2330.severity = error   # Ensure that JsonSerializer has a secure configuration when deserializing
+dotnet_diagnostic.CA3001.severity = error   # Review code for SQL injection vulnerabilities
+dotnet_diagnostic.CA3002.severity = error   # Review code for XSS vulnerabilities
+dotnet_diagnostic.CA3003.severity = error   # Review code for file path injection vulnerabilities
+dotnet_diagnostic.CA3004.severity = error   # Review code for information disclosure vulnerabilities
+dotnet_diagnostic.CA3006.severity = error   # Review code for process command injection vulnerabilities
+dotnet_diagnostic.CA3007.severity = error   # Review code for open redirect vulnerabilities
+dotnet_diagnostic.CA3008.severity = error   # Review code for XPath injection vulnerabilities
+dotnet_diagnostic.CA3009.severity = error   # Review code for XML injection vulnerabilities
+dotnet_diagnostic.CA3012.severity = error   # Review code for regex injection vulnerabilities
+dotnet_diagnostic.CA3075.severity = error   # Insecure DTD Processing
+dotnet_diagnostic.CA3076.severity = error   # Insecure XSLT Script Execution
+dotnet_diagnostic.CA3077.severity = error   # Insecure Processing in API Design, XML Document and XML Text Reader
+dotnet_diagnostic.CA5350.severity = error   # Do Not Use Weak Cryptographic Algorithms
+dotnet_diagnostic.CA5351.severity = error   # Do Not Use Broken Cryptographic Algorithms
+dotnet_diagnostic.CA5358.severity = error   # Do Not Use Unsafe Cipher Modes
+dotnet_diagnostic.CA5359.severity = error   # Do not disable certificate validation
+dotnet_diagnostic.CA5362.severity = error   # Potential reference cycle in deserialized object graph
+dotnet_diagnostic.CA5364.severity = error   # Do not use deprecated security protocols
+dotnet_diagnostic.CA5365.severity = error   # Do not Disable HTTP Header Checking
+dotnet_diagnostic.CA5379.severity = error   # Ensure key derivation function algorithm is sufficiently strong
+dotnet_diagnostic.CA5380.severity = error   # Do not add certificates to root store
+dotnet_diagnostic.CA5385.severity = error   # Use Rivest–Shamir–Adleman (RSA) algorithm with sufficient key size
+dotnet_diagnostic.CA5387.severity = error   # Do not use weak key derivation function with insufficient iteration count
+dotnet_diagnostic.CA5389.severity = error   # Do not add archive item's path to the target file system path
+dotnet_diagnostic.CA5390.severity = error   # Do not hard-code encryption key
+dotnet_diagnostic.CA5391.severity = error   # Use antiforgery tokens in ASP.NET Core MVC controllers
+dotnet_diagnostic.CA5392.severity = error   # Use DefaultDllImportSearchPaths attribute for P/Invokes
+dotnet_diagnostic.CA5393.severity = error   # Do not use unsafe DllImportSearchPath value
+dotnet_diagnostic.CA5394.severity = error   # Do not use insecure randomness
+dotnet_diagnostic.CA5396.severity = error   # Set HttpOnly to true for HttpCookie
+dotnet_diagnostic.CA5399.severity = error   # Enable HttpClient certificate revocation list check
+dotnet_diagnostic.CA5400.severity = error   # Ensure HttpClient certificate revocation list check is not disabled
+dotnet_diagnostic.CA5404.severity = error   # Do not disable token validation checks
+dotnet_diagnostic.CA5405.severity = error   # Do not always skip token validation in delegates
