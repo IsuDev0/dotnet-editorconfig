@@ -531,6 +531,22 @@ dotnet_code_quality.CA1051.api_surface = public,internal
 
 
 
+# Code Analysis — Portability and Interoperability
+# =========================================
+[*.{cs,csx,cake}]
+
+# Critical Severity
+dotnet_diagnostic.CA1401.severity = error   # P/Invokes should not be visible
+dotnet_diagnostic.CA1416.severity = error   # Validate platform compatibility
+dotnet_diagnostic.CA1420.severity = error   # Property, type, or attribute requires runtime marshalling
+dotnet_diagnostic.CA1421.severity = error   # Method uses runtime marshalling when DisableRuntimeMarshalling is applied
+dotnet_diagnostic.CA1422.severity = error   # Validate platform compatibility - obsoleted APIs
+
+# High Severity
+dotnet_diagnostic.CA1418.severity = warning   # Validate platform compatibility
+
+
+
 # Code Analysis — Maintainability
 # =========================================
 [*.{cs,csx,cake}]
