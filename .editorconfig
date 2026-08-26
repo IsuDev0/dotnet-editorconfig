@@ -4,7 +4,7 @@
 #  Version:       v0.16.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
-#  Updated:       2026-08-25
+#  Updated:       2026-08-26
 #
 #  Author:
 #    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
@@ -789,3 +789,34 @@ dotnet_diagnostic.CA2263.severity = warning   # Prefer generic overload when typ
 dotnet_diagnostic.CA2264.severity = warning   # Do not pass a non-nullable value to 'ArgumentNullException.ThrowIfNull'
 dotnet_diagnostic.CA2265.severity = warning   # Do not compare Span<T> to null or default
 dotnet_diagnostic.CA2266.severity = warning   # File-based program entry point should start with #!
+
+
+
+# License
+# =========================================
+# The following license applies to the .editorconfig file ONLY and is
+# included below to ensure that the file remains self-contained when
+# distributed or used independently of this repository.
+#
+# MIT License
+#
+# Copyright (c) 2026 Krystian Ozga (IsuDev0)
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
