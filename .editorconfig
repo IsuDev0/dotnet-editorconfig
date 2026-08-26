@@ -1,7 +1,7 @@
 # ==============================================================================
 #   .editorconfig — C#/.NET Code Style
 # ==============================================================================
-#  Version:       v0.15.0 (SemVer)
+#  Version:       v0.16.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-08-25
@@ -528,6 +528,19 @@ dotnet_code_quality.CA1008.additional_enum_none_names = None|Unknown|Undefined|D
 
 # API surface scope for CA1051
 dotnet_code_quality.CA1051.api_surface = public,internal
+
+
+
+# Code Analysis — Globalization
+# =========================================
+[*.{cs,csx,cake}]
+
+# High Severity
+dotnet_diagnostic.CA1307.severity = warning   # Specify StringComparison for clarity
+dotnet_diagnostic.CA1310.severity = warning   # Specify StringComparison for correctness
+
+# Low Severity
+dotnet_diagnostic.CA1308.severity = suggestion   # Normalize strings to uppercase
 
 
 
