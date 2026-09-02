@@ -1,10 +1,10 @@
 # ==============================================================================
 #   . E D I T O R C O N F I G
 # ==============================================================================
-#  Version:       v0.16.1 (SemVer)
+#  Version:       v0.17.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
-#  Updated:       2026-08-27
+#  Updated:       2026-09-02
 #
 #  Author:
 #    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
@@ -344,6 +344,11 @@ dotnet_naming_style.i_pascal_case_style.required_prefix = I
 dotnet_naming_style.t_pascal_case_style.capitalization  = pascal_case
 dotnet_naming_style.t_pascal_case_style.required_prefix = T
 
+# Style: disallowed_style
+# Format: ____DISALLOWED____PascalCase____DISALLOWED____
+dotnet_naming_style.disallowed_style.capitalization = pascal_case
+dotnet_naming_style.disallowed_style.required_prefix = ____DISALLOWED____
+dotnet_naming_style.disallowed_style.required_suffix = ____DISALLOWED____
 
 
 # Naming Rules — Structural
@@ -476,6 +481,22 @@ dotnet_naming_symbols.local_functions_group.applicable_kinds = local_function
 dotnet_naming_rule.local_functions_must_be_pascal_case.symbols  = local_functions_group
 dotnet_naming_rule.local_functions_must_be_pascal_case.style    = pascal_case_style
 dotnet_naming_rule.local_functions_must_be_pascal_case.severity = error
+
+
+
+# Naming Rules — Disallowed
+# =========================================
+[*.{cs,csx,cake}]
+
+# Static Fields
+# Note: Complements CA1051, which does not cover static fields in internal types or fields with internal accessibility.
+dotnet_naming_symbols.static_fields_group.applicable_accessibilities = public,protected,internal,protected_internal,private_protected
+dotnet_naming_symbols.static_fields_group.applicable_kinds = field
+dotnet_naming_symbols.static_fields_group.required_modifiers = static
+
+dotnet_naming_rule.static_fields_are_disallowed.symbols = static_fields_group
+dotnet_naming_rule.static_fields_are_disallowed.style = disallowed_style
+dotnet_naming_rule.static_fields_are_disallowed.severity = error
 
 
 
