@@ -118,13 +118,13 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:error
 dotnet_style_readonly_field = true:error
 
 # Types
-dotnet_style_predefined_type_for_locals_parameters_members = true:error
-dotnet_style_predefined_type_for_member_access = true:error
+dotnet_style_predefined_type_for_locals_parameters_members = true:warning
+dotnet_style_predefined_type_for_member_access = true:warning
 
 # Variables
 csharp_style_var_for_built_in_types = true:warning
 csharp_style_var_when_type_is_apparent = true:warning
-csharp_style_var_elsewhere = true:silent
+csharp_style_var_elsewhere = true:suggestion
 
 # Variable Declarations
 csharp_style_inlined_variable_declaration = true:error
@@ -154,7 +154,7 @@ dotnet_style_prefer_inferred_tuple_names = true:warning
 
 # Deconstruction
 csharp_style_prefer_tuple_swap = true:error
-csharp_style_deconstructed_variable_declaration = true:suggestion
+csharp_style_deconstructed_variable_declaration = false:suggestion
 
 # Null Handling
 csharp_style_throw_expression = true:error
@@ -191,7 +191,7 @@ csharp_style_expression_bodied_methods = when_on_single_line:suggestion
 
 # Lambdas & Functions
 csharp_style_prefer_implicitly_typed_lambda_expression = true:warning
-csharp_prefer_static_local_function = true:suggestion
+csharp_prefer_static_local_function = true:warning
 csharp_style_prefer_method_group_conversion = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
 
@@ -205,14 +205,14 @@ dotnet_style_prefer_non_hidden_explicit_cast_in_source = true:warning
 
 # Modern Language Features
 csharp_prefer_system_threading_lock = true:error
-csharp_style_prefer_index_operator = false:warning
-csharp_style_prefer_range_operator = false:warning
+csharp_style_prefer_utf8_string_literals = true:error
 csharp_style_prefer_switch_expression = true:warning
 csharp_style_prefer_extended_property_pattern = true:warning
 csharp_style_prefer_unbound_generic_type_in_nameof = true:warning
-csharp_style_prefer_utf8_string_literals = true:warning
 csharp_style_prefer_primary_constructors = true:suggestion
 csharp_style_prefer_top_level_statements = false:silent
+csharp_style_prefer_index_operator = false:silent
+csharp_style_prefer_range_operator = false:silent
 
 # Using & Resource Management
 csharp_prefer_simple_using_statement = true:warning
@@ -483,9 +483,11 @@ dotnet_naming_rule.local_functions_must_be_pascal_case.severity = error
 # =========================================
 [*.{cs,csx,cake}]
 
-# API surface scope
+# API Surface Scope
 dotnet_code_quality.api_surface = all
 
+# API Surface Scope Exception
+dotnet_code_quality.CA1002.api_surface = public,internal
 
 
 # Code Analysis — Design
@@ -495,12 +497,14 @@ dotnet_code_quality.api_surface = all
 # Enforced
 dotnet_diagnostic.CA1001.severity = error   # Types that own disposable fields should be disposable
 dotnet_diagnostic.CA1002.severity = error   # Do not expose generic lists
+dotnet_diagnostic.CA1010.severity = error   # Collections should implement generic interface
 dotnet_diagnostic.CA1012.severity = error   # Abstract types should not have public constructors
 dotnet_diagnostic.CA1018.severity = error   # Mark attributes with AttributeUsageAttribute
 dotnet_diagnostic.CA1019.severity = error   # Define accessors for attribute arguments
 dotnet_diagnostic.CA1031.severity = error   # Do not catch general exception types
 dotnet_diagnostic.CA1032.severity = error   # Implement standard exception constructors
 dotnet_diagnostic.CA1036.severity = error   # Override methods on comparable types
+dotnet_diagnostic.CA1043.severity = error   # Use integral or string argument for indexers
 dotnet_diagnostic.CA1044.severity = error   # Properties should not be write only
 dotnet_diagnostic.CA1050.severity = error   # Declare types in namespaces
 dotnet_diagnostic.CA1051.severity = error   # Do not declare visible instance fields
@@ -509,26 +513,24 @@ dotnet_diagnostic.CA1063.severity = error   # Implement IDisposable correctly
 dotnet_diagnostic.CA1065.severity = error   # Do not raise exceptions in unexpected locations
 dotnet_diagnostic.CA1066.severity = error   # Implement IEquatable when overriding Equals
 dotnet_diagnostic.CA1067.severity = error   # Override Equals when implementing IEquatable
+dotnet_diagnostic.CA1068.severity = error   # CancellationToken parameters must come last
 dotnet_diagnostic.CA1069.severity = error   # Enums should not have duplicate values
 dotnet_diagnostic.CA1070.severity = error   # Do not declare event fields as virtual
 
 # Recommended
 dotnet_diagnostic.CA1005.severity = warning   # Avoid excessive parameters on generic types
 dotnet_diagnostic.CA1008.severity = warning   # Enums should have zero value
-dotnet_diagnostic.CA1010.severity = warning   # Collections should implement generic interface
 dotnet_diagnostic.CA1021.severity = warning   # Avoid out parameters
 dotnet_diagnostic.CA1024.severity = warning   # Use properties where appropriate
 dotnet_diagnostic.CA1027.severity = warning   # Mark enums with FlagsAttribute
 dotnet_diagnostic.CA1034.severity = warning   # Nested types should not be visible
 dotnet_diagnostic.CA1041.severity = warning   # Provide ObsoleteAttribute message
-dotnet_diagnostic.CA1043.severity = warning   # Use integral or string argument for indexers
 dotnet_diagnostic.CA1045.severity = warning   # Do not pass types by reference
 dotnet_diagnostic.CA1046.severity = warning   # Do not overload operator equals on reference types
 dotnet_diagnostic.CA1052.severity = warning   # Static holder types should be Static or NotInheritable
 dotnet_diagnostic.CA1054.severity = warning   # URI parameters should not be strings
 dotnet_diagnostic.CA1055.severity = warning   # URI return values should not be strings
 dotnet_diagnostic.CA1056.severity = warning   # URI properties should not be strings
-dotnet_diagnostic.CA1068.severity = warning   # CancellationToken parameters must come last
 
 # Advisory
 dotnet_diagnostic.CA1047.severity = suggestion   # Do not declare protected members in sealed types
@@ -581,14 +583,12 @@ dotnet_diagnostic.CA1501.severity = warning   # Avoid excessive inheritance
 dotnet_diagnostic.CA1502.severity = warning   # Avoid excessive complexity
 dotnet_diagnostic.CA1505.severity = warning   # Avoid unmaintainable code
 dotnet_diagnostic.CA1506.severity = warning   # Avoid excessive class coupling
+dotnet_diagnostic.CA1510.severity = warning   # Use ArgumentNullException throw helper
+dotnet_diagnostic.CA1511.severity = warning   # Use ArgumentException throw helper
+dotnet_diagnostic.CA1512.severity = warning   # Use ArgumentOutOfRangeException throw helper
+dotnet_diagnostic.CA1513.severity = warning   # Use ObjectDisposedException throw helper
 dotnet_diagnostic.CA1514.severity = warning   # Avoid redundant length argument
 dotnet_diagnostic.CA1515.severity = warning   # Consider making public types internal
-
-# Advisory
-dotnet_diagnostic.CA1510.severity = suggestion   # Use ArgumentNullException throw helper
-dotnet_diagnostic.CA1511.severity = suggestion   # Use ArgumentException throw helper
-dotnet_diagnostic.CA1512.severity = suggestion   # Use ArgumentOutOfRangeException throw helper
-dotnet_diagnostic.CA1513.severity = suggestion   # Use ObjectDisposedException throw helper
 
 
 
@@ -601,6 +601,7 @@ dotnet_diagnostic.CA1707.severity = error   # Identifiers should not contain und
 dotnet_diagnostic.CA1708.severity = error   # Identifiers should differ by more than case
 dotnet_diagnostic.CA1710.severity = error   # Identifiers should have correct suffix
 dotnet_diagnostic.CA1711.severity = error   # Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA1724.severity = error   # Type names should not match namespaces
 dotnet_diagnostic.CA1725.severity = error   # Parameter names should match base declaration
 
 # Recommended
@@ -608,7 +609,6 @@ dotnet_diagnostic.CA1712.severity = warning   # Do not prefix enum values with t
 dotnet_diagnostic.CA1716.severity = warning   # Identifiers should not match keywords
 dotnet_diagnostic.CA1720.severity = warning   # Identifiers should not contain type names
 dotnet_diagnostic.CA1721.severity = warning   # Property names should not match get methods
-dotnet_diagnostic.CA1724.severity = warning   # Type names should not match namespaces
 dotnet_diagnostic.CA1727.severity = warning   # Use PascalCase for named placeholders
 
 # Advisory
@@ -760,6 +760,7 @@ dotnet_diagnostic.CA2227.severity = error   # Collection properties should be re
 dotnet_diagnostic.CA2241.severity = error   # Provide correct arguments to formatting methods
 dotnet_diagnostic.CA2242.severity = error   # Test for NaN correctly
 dotnet_diagnostic.CA2243.severity = error   # Attribute string literals should parse correctly
+dotnet_diagnostic.CA2244.severity = error   # Do not duplicate indexed element initializations
 dotnet_diagnostic.CA2245.severity = error   # Do not assign a property to itself
 dotnet_diagnostic.CA2247.severity = error   # Argument passed to TaskCompletionSource constructor should be TaskCreationOptions enum instead of TaskContinuationOptions enum
 dotnet_diagnostic.CA2248.severity = error   # Provide correct enum argument to Enum.HasFlag
@@ -775,7 +776,6 @@ dotnet_diagnostic.CA2261.severity = error   # Do not use ConfigureAwaitOptions.S
 
 # Recommended
 dotnet_diagnostic.CA2207.severity = warning   # Initialize value type static fields inline
-dotnet_diagnostic.CA2244.severity = warning   # Do not duplicate indexed element initializations
 dotnet_diagnostic.CA2246.severity = warning   # Do not assign a symbol and its member in the same statement
 dotnet_diagnostic.CA2253.severity = warning   # Named placeholders should not be numeric values
 dotnet_diagnostic.CA2262.severity = warning   # Set MaxResponseHeadersLength properly
