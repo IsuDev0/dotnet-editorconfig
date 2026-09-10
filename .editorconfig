@@ -1,7 +1,7 @@
 # ==============================================================================
 #   . E D I T O R C O N F I G
 # ==============================================================================
-#  Version:       v0.18.0 (SemVer)
+#  Version:       v0.19.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-09-10
@@ -519,6 +519,10 @@ dotnet_code_quality.api_surface = all
 # API Surface Scope Exception
 dotnet_code_quality.CA1002.api_surface = public,internal
 
+# Ignore InternalsVisibleTo Assemblies
+dotnet_code_quality.CA1812.ignore_internalsvisibleto = true
+
+
 
 # Code Analysis — Design
 # =========================================
@@ -813,6 +817,81 @@ dotnet_diagnostic.CA2263.severity = warning   # Prefer generic overload when typ
 dotnet_diagnostic.CA2264.severity = warning   # Do not pass a non-nullable value to 'ArgumentNullException.ThrowIfNull'
 dotnet_diagnostic.CA2265.severity = warning   # Do not compare Span<T> to null or default
 dotnet_diagnostic.CA2266.severity = warning   # File-based program entry point should start with #!
+
+
+
+# Rule Exceptions
+# =========================================
+
+# Tests
+[**[Tt]est{s,}{/**,}.cs]
+dotnet_diagnostic.CA1005.severity = none
+dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.CA1506.severity = none
+dotnet_diagnostic.CA1515.severity = none
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.CA1806.severity = none
+dotnet_diagnostic.CA1812.severity = none
+dotnet_diagnostic.CA1822.severity = none
+dotnet_diagnostic.CA1859.severity = none
+
+dotnet_diagnostic.IDE0007.severity = none
+dotnet_diagnostic.IDE0008.severity = none
+dotnet_diagnostic.IDE0028.severity = none
+dotnet_diagnostic.IDE0058.severity = none
+
+# Fakes
+[**[Ff]ake{s,}{/**,*}.cs]
+dotnet_diagnostic.CA1002.severity = none
+dotnet_diagnostic.CA1711.severity = none
+dotnet_diagnostic.CA1812.severity = none
+dotnet_diagnostic.CA1822.severity = none
+
+dotnet_diagnostic.IDE0028.severity = none
+dotnet_diagnostic.IDE0051.severity = none
+dotnet_diagnostic.IDE0060.severity = none
+
+# DTOs
+[**[Dd][Tt][Oo]{S,s,}{/**,}.cs]
+dotnet_diagnostic.CA1056.severity = none
+dotnet_diagnostic.CA1515.severity = none
+dotnet_diagnostic.CA1812.severity = none
+
+dotnet_diagnostic.CS1591.severity = warning
+
+# Entities
+[**[Ee]ntit{y,ies}{/**,}.cs]
+dotnet_diagnostic.CA1002.severity = none
+dotnet_diagnostic.CA1056.severity = none
+dotnet_diagnostic.CA1812.severity = none
+dotnet_diagnostic.CA2227.severity = none
+
+# Models
+[**[Mm]odel{s,}{/**,}.cs]
+dotnet_diagnostic.CA1056.severity = none
+
+# Controllers
+[**[Cc]ontroller{s,}{/**,}.cs]
+dotnet_diagnostic.CA1515.severity = none
+
+dotnet_diagnostic.CS1591.severity = warning
+
+# Dependency Injection
+[DependencyInjection.cs]
+dotnet_diagnostic.CA1724.severity = none
+
+# Migrations
+[**[Mm]igrations/**.cs]
+dotnet_diagnostic.CA1814.severity = none
+dotnet_diagnostic.CA1861.severity = none
+
+dotnet_diagnostic.IDE0161.severity = none
+dotnet_diagnostic.IDE0300.severity = none
+
+# Entry point files
+[{[Pp]rogram,[Aa]pp}.cs]
+dotnet_diagnostic.CA1515.severity = none
+dotnet_diagnostic.CA1812.severity = none
 
 
 
