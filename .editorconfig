@@ -1,10 +1,10 @@
 # ==============================================================================
 #   . E D I T O R C O N F I G
 # ==============================================================================
-#  Version:       v0.17.0 (SemVer)
+#  Version:       v0.18.0 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
-#  Updated:       2026-09-02
+#  Updated:       2026-09-10
 #
 #  Author:
 #    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
@@ -497,6 +497,15 @@ dotnet_naming_symbols.static_fields_group.required_modifiers = static
 dotnet_naming_rule.static_fields_are_disallowed.symbols = static_fields_group
 dotnet_naming_rule.static_fields_are_disallowed.style = disallowed_style
 dotnet_naming_rule.static_fields_are_disallowed.severity = error
+
+
+
+# Code Analysis — Compiler Diagnostics
+# =========================================
+[*.{cs,csx,cake}]
+
+# Documentation
+dotnet_diagnostic.CS1591.severity = none   # Missing XML comment for publicly visible type or member
 
 
 
