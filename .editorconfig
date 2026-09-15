@@ -1,7 +1,7 @@
 # ==============================================================================
 #   . E D I T O R C O N F I G
 # ==============================================================================
-#  Version:       v0.20.0 (SemVer)
+#  Version:       v0.20.1 (SemVer)
 #  Target:        C# 14+ / .NET 10+
 #  Environment:   Visual Studio 2026+
 #  Updated:       2026-09-15
@@ -14,7 +14,7 @@
 #    Style and analysis rules are configured explicitly and treated as project constraints.
 #
 #  Analyzers:
-#    - Microsoft.CodeAnalysis.NetAnalyzers
+#    - .NET SDK analyzers (Microsoft.CodeAnalysis.NetAnalyzers)
 #
 #  License: MIT (full license text included below)
 # ==============================================================================
@@ -604,7 +604,7 @@ dotnet_diagnostic.CA1308.severity = suggestion   # Normalize strings to uppercas
 dotnet_diagnostic.CA1401.severity = error   # P/Invokes should not be visible
 dotnet_diagnostic.CA1416.severity = error   # Validate platform compatibility
 dotnet_diagnostic.CA1417.severity = error   # Do not use OutAttribute on string parameters for P/Invokes
-dotnet_diagnostic.CA1418.severity = error   # Validate platform compatibility
+dotnet_diagnostic.CA1418.severity = error   # Use valid platform string
 dotnet_diagnostic.CA1420.severity = error   # Property, type, or attribute requires runtime marshalling
 dotnet_diagnostic.CA1421.severity = error   # Method uses runtime marshalling when DisableRuntimeMarshallingAttribute is applied
 
