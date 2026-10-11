@@ -152,7 +152,7 @@ See `Shared Exceptions` in [`.editorconfig`](.editorconfig) for the complete ove
 
 Overrides can adjust both the baseline rules and the [shared exceptions](#shared-exceptions). Include only settings that need to change.
 
-#### Root configuration
+#### Option 1 — Root configuration
 
 The simplest approach is to add overrides to `Project-Specific Overrides` at the end of the root `.editorconfig`:
 
@@ -163,7 +163,7 @@ dotnet_diagnostic.CA1707.severity = warning
 
 This sets `CA1707` to a warning for C# files in `src/Example` and its subdirectories. Paths are relative to `.editorconfig`, and later matching settings take precedence.
 
-#### Child configuration
+#### Option 2 — Child configuration
 
 A child `.editorconfig` keeps project-specific settings alongside the code, making them easier to find and maintain. Omit `root = true` to inherit the shared baseline.
 
