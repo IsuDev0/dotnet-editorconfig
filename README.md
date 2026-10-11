@@ -11,6 +11,226 @@ The configuration includes .NET analyzer settings and scoped exceptions for comm
 and can be adapted to the requirements of individual projects and frameworks.
 
 
+## Key Conventions
+
+The choices below give this standard its particular style. They can be [customized](#customization) to match a project's needs or a team's preferences.
+
+Examples illustrate individual conventions and may omit surrounding code.
+
+<details>
+<summary><strong>Brace Style</strong> — K&amp;R</summary>
+
+Opening braces stay on the same line as the declaration or statement that introduces the block. This keeps the layout compact and leaves more surrounding code visible.
+
+```csharp
+using System;
+
+namespace Example;
+
+internal static class Program {
+    private static void Main() {
+        Console.WriteLine("Hello, World!");
+    }
+}
+```
+
+</details>
+
+<details>
+<summary><strong>Brace Usage</strong> — Required for multiline statements</summary>
+
+Braces are required when a control statement's header or body spans multiple lines. This allows concise statements while making the boundaries of longer constructs explicit.
+
+Braces are also recommended for simpler statements to reduce ambiguity during later edits. The configured rule does not prevent every mistake caused by omitted braces.
+
+```csharp
+// Allowed: the condition and body statement each fit on one line.
+if (showGreeting)
+    Console.WriteLine("Hello, World!");
+
+// Recommended: braces make the block boundaries explicit.
+if (showGreeting) {
+    Console.WriteLine("Hello, World!");
+}
+
+// Required: the condition spans multiple lines.
+if (showGreeting &&
+    isUserReady) {
+    Console.WriteLine("Hello, World!");
+}
+
+// Required: the body statement spans multiple lines.
+if (showGreeting) {
+    Console.WriteLine(
+        "Hello, {0}!",
+        userName);
+}
+```
+
+Keep braced control blocks on multiple lines for clearer stepping and breakpoint placement. Compact property declarations may remain on one line. This is a layout recommendation, separate from the enforced brace requirement.
+
+```csharp
+// Avoid: placing the entire control block on one line.
+if (showGreeting) { Console.WriteLine("Hello, World!"); }
+
+// Allowed: a compact property declaration.
+public string Name { get; set; } = string.Empty;
+```
+
+</details>
+
+<details>
+<summary><strong>Field Visibility</strong> — Private fields</summary>
+
+Instance fields, including readonly fields, and mutable static fields must be private. This keeps access to stored state under the type's control and reduces dependencies on its internal representation.
+
+Expose data through properties or methods that provide the intended access and validate changes where needed. Constants and static readonly fields are exempt from this visibility restriction.
+
+**Non-private fields**
+
+```csharp
+// Disallowed: a non-private instance field.
+public int Value;
+
+// Disallowed: a non-private mutable static field.
+internal static int TotalCount;
+```
+
+**Controlled access**
+
+```csharp
+// Keep the instance field private.
+private int _value;
+
+// Expose read access through a property.
+public int Value => _value;
+
+// Validate input before changing the stored value.
+public void Add(int amount) {
+    ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
+
+    _value += amount;
+}
+```
+
+</details>
+
+<details>
+<summary><strong>Field Naming</strong> — Prefixes and casing</summary>
+
+Private instance fields use `_camelCase`, while private mutable static fields use `s_camelCase`. Constants and static readonly fields use `PascalCase` at every accessibility level.
+
+These conventions make a field's role recognizable at its point of use and help distinguish instance state from state shared by the type.
+
+```csharp
+// Private instance fields: _camelCase.
+private int _value;
+private readonly int _limit;
+private volatile int _status;
+
+// Private mutable static fields: s_camelCase.
+private static int s_totalCount;
+private static volatile int s_sharedStatus;
+
+// Constants: PascalCase at every accessibility level.
+public const int PublicLimit = 100;
+internal const int InternalLimit = 100;
+protected const int ProtectedLimit = 100;
+protected internal const int ProtectedInternalLimit = 100;
+private protected const int PrivateProtectedLimit = 100;
+private const int PrivateLimit = 100;
+
+// Static readonly fields: PascalCase at every accessibility level.
+public static readonly int PublicValue;
+internal static readonly int InternalValue;
+protected static readonly int ProtectedValue;
+protected internal static readonly int ProtectedInternalValue;
+private protected static readonly int PrivateProtectedValue;
+private static readonly int PrivateValue;
+```
+
+</details>
+
+<details>
+<summary><strong>Expression &amp; Block Bodies</strong> — Simple, focused members</summary>
+
+Expression bodies keep simple value access concise, while block bodies give procedural code a consistent structure.
+
+Properties and operators are expected to remain focused. When an implementation becomes difficult to express clearly, consider whether substantial logic belongs in a separate method. This is a design guideline, not a complexity check performed by the analyzer.
+
+**Expression bodies**
+
+Expression bodies are required for properties, indexers, and accessors where possible. For operators, they are preferred when the expression fits on a single line.
+
+```csharp
+// Required where possible: properties, indexers, and accessors.
+public int Value => _value;
+
+public int this[int index] => _values[index];
+
+public int EditableValue {
+    get => _value;
+    set => _value = value;
+}
+
+// Preferred: an operator whose expression fits on one line.
+public static Example operator +(Example left, Example right) => new(left.Value + right.Value);
+```
+
+**Block bodies**
+
+Constructors and methods prefer block bodies, even when they contain only one statement.
+
+```csharp
+public Example(int value) {
+    _value = value;
+}
+
+public int GetValue() {
+    return _value;
+}
+```
+
+**Local functions & lambdas**
+
+Expression bodies are suggested when they fit on a single line.
+
+```csharp
+public int Calculate() {
+    // Suggested: a single-line local function.
+    static int Double(int value) => value * 2;
+
+    // Suggested: a single-line lambda.
+    Func<int, int> increment = static value => value + 1;
+
+    return increment(Double(_value));
+}
+```
+
+</details>
+
+<details>
+<summary><strong>Type Inference</strong> — Selective use of <code>var</code></summary>
+
+`var` is preferred for built-in types and when the type is apparent from the initializer. Explicit types are suggested elsewhere.
+
+This avoids repeating obvious type information while keeping less apparent types visible at the declaration.
+
+```csharp
+// Preferred: var for built-in types.
+var count = 10;
+var message = "Hello, World!";
+
+// Preferred: var when the initializer clearly identifies the type.
+var example = new Example(10);
+
+// Suggested: an explicit type when the initializer does not reveal it.
+Example loadedExample = Load();
+```
+
+</details>
+
+
 ## Getting Started
 
 > [!TIP]
