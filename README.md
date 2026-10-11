@@ -287,43 +287,46 @@ Repository/
 ### 2. Configure build-time analysis
 
 SDK code quality analyzers are enabled by default for .NET 10 projects.
-To also report supported code style diagnostics during builds, add
-[`EnforceCodeStyleInBuild`](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enforcecodestyleinbuild)
-to the project's `.csproj` file.
-Alternatively, use a root `Directory.Build.props` to share the settings across projects.
-In an existing file, add the entries inside its `<Project>` element.
-
-Only `EnforceCodeStyleInBuild` is active in the example below.
-Uncomment optional settings as needed, including the `ItemGroup` for
-[`IDE0130`](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0130) namespace-to-folder checks during command-line builds.
+To also report supported code style diagnostics during builds, add the following setting to the project's `.csproj` file.
+Alternatively, use a root `Directory.Build.props` to share it across projects.
+In an existing file, add the setting inside its `<Project>` element.
 
 Rules configured as errors can cause builds to fail as soon as build-time analysis is enabled.
-
-> [!NOTE]
-> Visual Studio may skip analyzers in builds triggered by **Run** or **Debug**.
-> An application can therefore launch even when an explicit **Build** or **Rebuild** fails on an analyzer error.
-> Set [`OptimizeImplicitlyTriggeredBuild`](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#optimizeimplicitlytriggeredbuild) to `false` to disable this optimization.
-> This may increase the time needed to start the application.
 
 ```xml
 <Project>
   <PropertyGroup>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+</Project>
+```
 
-    <!-- Optional: explicitly enable SDK code quality analyzers -->
+> [!NOTE]
+> Visual Studio may skip analyzers in builds triggered by **Run** or **Debug**, allowing an application to launch even when an explicit **Build** or **Rebuild** fails on an analyzer error.
+> To disable this optimization, set `OptimizeImplicitlyTriggeredBuild` to `false` using the additional settings below.
+
+<details>
+<summary><strong>Additional build settings</strong></summary>
+
+The following settings are optional. Merge the entries you need into the same `.csproj` or `Directory.Build.props` file, uncommenting them as needed.
+
+```xml
+<Project>
+  <PropertyGroup>
+    <!-- Explicitly enable SDK code quality analyzers -->
     <!-- <EnableNETAnalyzers>true</EnableNETAnalyzers> -->
 
-    <!-- Optional: use .NET 10 analysis defaults without pinning the SDK -->
+    <!-- Use .NET 10 analysis defaults without pinning the SDK -->
     <!-- <AnalysisLevel>10.0</AnalysisLevel> -->
 
-    <!-- Optional: retain analyzer checks in Visual Studio Run/Debug builds -->
+    <!-- Retain analyzer checks in Visual Studio Run/Debug builds -->
     <!-- <OptimizeImplicitlyTriggeredBuild>false</OptimizeImplicitlyTriggeredBuild> -->
 
-    <!-- Optional: treat compiler and analyzer warnings as errors -->
+    <!-- Treat compiler and analyzer warnings as errors -->
     <!-- <TreatWarningsAsErrors>true</TreatWarningsAsErrors> -->
   </PropertyGroup>
 
-  <!-- Optional: provide project information for IDE0130 during CLI builds -->
+  <!-- Provide project information for IDE0130 during CLI builds -->
   <!--
   <ItemGroup>
     <CompilerVisibleProperty Include="RootNamespace" />
@@ -332,6 +335,16 @@ Rules configured as errors can cause builds to fail as soon as build-time analys
   -->
 </Project>
 ```
+
+The `CompilerVisibleProperty` entries supply the project information needed by
+[`IDE0130`](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0130)
+to check namespaces against the folder structure during command-line builds.
+
+Disabling implicit build optimization may increase the time needed to start the application.
+For more information about these settings, see the
+[MSBuild properties reference](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props).
+
+</details>
 
 ### 3. Verify that the project finds the configuration
 
