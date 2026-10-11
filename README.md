@@ -163,6 +163,7 @@ dotnet_diagnostic.CA1707.severity = warning
 
 This sets `CA1707` to a warning for C# files in `src/Example` and its subdirectories. Paths are relative to `.editorconfig`, and later matching settings take precedence.
 
+---
 #### Option 2 — Child configuration
 
 A child `.editorconfig` keeps project-specific settings alongside the code, making them easier to find and maintain. Omit `root = true` to inherit the shared baseline.
