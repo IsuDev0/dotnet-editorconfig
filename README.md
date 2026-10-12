@@ -19,7 +19,9 @@ Examples illustrate individual conventions and may omit surrounding code.
 
 <details>
 <summary><strong>Brace Style</strong> — K&amp;R</summary>
-
+  
+---
+  
 Opening braces stay on the same line as the declaration or statement that introduces the block. This keeps the layout compact and leaves more surrounding code visible.
 
 ```csharp
@@ -38,7 +40,9 @@ internal static class Program {
 
 <details>
 <summary><strong>Brace Usage</strong> — Required for multiline statements</summary>
-
+  
+---
+  
 Braces are required when a control statement's header or body spans multiple lines. This allows concise statements while making the boundaries of longer constructs explicit.
 
 Braces are also recommended for simpler statements to reduce ambiguity during later edits. The configured rule does not prevent every mistake caused by omitted braces.
@@ -81,7 +85,9 @@ public string Name { get; set; } = string.Empty;
 
 <details>
 <summary><strong>Field Visibility</strong> — Private fields</summary>
-
+  
+---
+  
 Instance fields, including readonly fields, and mutable static fields must be private. This keeps access to stored state under the type's control and reduces dependencies on its internal representation.
 
 Expose data through properties or methods that provide the intended access and validate changes where needed. Constants and static readonly fields are exempt from this visibility restriction.
@@ -117,7 +123,9 @@ public void Add(int amount) {
 
 <details>
 <summary><strong>Field Naming</strong> — Prefixes and casing</summary>
-
+  
+---
+  
 Private instance fields use `_camelCase`, while private mutable static fields use `s_camelCase`. Constants and static readonly fields use `PascalCase` at every accessibility level.
 
 These conventions make a field's role recognizable at its point of use and help distinguish instance state from state shared by the type.
@@ -153,7 +161,9 @@ private static readonly int PrivateValue;
 
 <details>
 <summary><strong>Expression &amp; Block Bodies</strong> — Simple, focused members</summary>
-
+  
+---
+  
 Expression bodies keep simple value access concise, while block bodies give procedural code a consistent structure.
 
 Properties and operators are expected to remain focused. When an implementation becomes difficult to express clearly, consider whether substantial logic belongs in a separate method. This is a design guideline, not a complexity check performed by the analyzer.
@@ -211,7 +221,9 @@ public int Calculate() {
 
 <details>
 <summary><strong>Type Inference</strong> — Selective use of <code>var</code></summary>
-
+  
+---
+  
 `var` is preferred for built-in types and when the type is apparent from the initializer. Explicit types are suggested elsewhere.
 
 This avoids repeating obvious type information while keeping less apparent types visible at the declaration.
