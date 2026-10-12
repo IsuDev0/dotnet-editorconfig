@@ -295,6 +295,8 @@ Rules configured as errors can cause the build to fail.
 <details>
 <summary><strong>Additional build settings</strong></summary>
 
+---
+
 Merge the entries you need into the same `.csproj` or `Directory.Build.props` file, uncommenting them as needed.
 
 ```xml
