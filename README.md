@@ -249,6 +249,22 @@ Example loadedExample = Load();
 > The standard is easiest to adopt in new projects, where its conventions can be followed from the start.
 > Existing projects can also use it, but may require code changes or adjustments to the configuration.
 
+### Environment
+
+- **Language and framework:** C# 14 / .NET 10
+- **Target IDE:** Visual Studio 2026+
+- **Tested SDK:** .NET SDK 10.0.401 (CLI)
+
+> [!NOTE]
+> The SDK version identifies the toolchain used for verification.
+> `.editorconfig` does not select or install an SDK version.
+
+**Analyzer dependencies**
+
+- [Microsoft.CodeAnalysis.NetAnalyzers](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers) (included in the .NET SDK)
+- [Microsoft.CodeAnalysis.CSharp.CodeStyle](https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.CodeStyle) (included in the .NET SDK)
+
+Visual Studio is not required for command-line analysis. Other IDEs may differ in their support for individual settings and diagnostics.
 
 ### 1. Add the configuration
 
