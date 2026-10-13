@@ -10,19 +10,18 @@ It brings together formatting, naming, code style, and code quality rules to sup
 The configuration includes .NET analyzer settings and scoped exceptions for common scenarios,
 and can be adapted to the requirements of individual projects and frameworks.
 
-
 ## Key Conventions
 
-The choices below give this standard its particular style. They can be [customized](#customization) to match a project's needs or a team's preferences.
+The conventions below reflect deliberate choices about how code should look and be structured. They can be [customized](#customization) to suit a project's needs or a team's preferences.
 
 Examples illustrate individual conventions and may omit surrounding code.
 
 <details>
 <summary><strong>Brace Style</strong> — K&amp;R</summary>
-  
+
 ---
-  
-Opening braces stay on the same line as the declaration or statement that introduces the block. This keeps the layout compact and leaves more surrounding code visible.
+
+Opening braces stay on the same line as the declaration or statement that introduces the block. This compact layout keeps more surrounding code visible.
 
 ```csharp
 using System;
@@ -40,12 +39,12 @@ internal static class Program {
 
 <details>
 <summary><strong>Brace Usage</strong> — Required for multiline statements</summary>
-  
----
-  
-Braces are required when a control statement's header or body spans multiple lines. This allows concise statements while making the boundaries of longer constructs explicit.
 
-Braces are also recommended for simpler statements to reduce ambiguity during later edits. The configured rule does not prevent every mistake caused by omitted braces.
+---
+
+Braces are required when a control statement's header or body spans multiple lines. Short statements can remain concise, while longer constructs have explicit boundaries.
+
+Using braces for shorter statements is also recommended to reduce ambiguity during later edits. The configured rule does not prevent every mistake caused by omitted braces.
 
 ```csharp
 // Allowed: the condition and body statement each fit on one line.
@@ -71,7 +70,7 @@ if (showGreeting) {
 }
 ```
 
-Keep braced control blocks on multiple lines for clearer stepping and breakpoint placement. Compact property declarations may remain on one line. This is a layout recommendation, separate from the enforced brace requirement.
+For clearer stepping and breakpoint placement, keep braced control blocks on multiple lines. Compact property declarations may remain on one line. This layout recommendation is separate from the enforced brace requirement.
 
 ```csharp
 // Avoid: placing the entire control block on one line.
@@ -85,12 +84,12 @@ public string Name { get; set; } = string.Empty;
 
 <details>
 <summary><strong>Field Visibility</strong> — Private fields</summary>
-  
----
-  
-Instance fields, including readonly fields, and mutable static fields must be private. This keeps access to stored state under the type's control and reduces dependencies on its internal representation.
 
-Expose data through properties or methods that provide the intended access and validate changes where needed. Constants and static readonly fields are exempt from this visibility restriction.
+---
+
+Instance fields, including readonly fields, and mutable static fields must be private. Constants and static readonly fields are exempt from this restriction.
+
+Private fields keep stored state under the type's control and reduce dependencies on its internal representation. Expose data through properties or methods that define the intended access and validate changes where needed.
 
 **Non-private fields**
 
@@ -123,12 +122,12 @@ public void Add(int amount) {
 
 <details>
 <summary><strong>Field Naming</strong> — Prefixes and casing</summary>
-  
+
 ---
-  
+
 Private instance fields use `_camelCase`, while private mutable static fields use `s_camelCase`. Constants and static readonly fields use `PascalCase` at every accessibility level.
 
-These conventions make a field's role recognizable at its point of use and help distinguish instance state from state shared by the type.
+These names help distinguish instance state from shared state and make a field's role clear where it is used.
 
 ```csharp
 // Private instance fields: _camelCase.
@@ -161,12 +160,12 @@ private static readonly int PrivateValue;
 
 <details>
 <summary><strong>Expression &amp; Block Bodies</strong> — Simple, focused members</summary>
-  
+
 ---
-  
+
 Expression bodies keep simple value access concise, while block bodies give procedural code a consistent structure.
 
-Properties and operators are expected to remain focused. When an implementation becomes difficult to express clearly, consider whether substantial logic belongs in a separate method. This is a design guideline, not a complexity check performed by the analyzer.
+Properties and operators should remain focused. If an implementation becomes difficult to express clearly, consider moving complex logic into a separate method. This is a design guideline. The analyzer checks the body style without evaluating the member's responsibilities.
 
 **Expression bodies**
 
@@ -189,7 +188,7 @@ public static Example operator +(Example left, Example right) => new(left.Value 
 
 **Block bodies**
 
-Constructors and methods prefer block bodies, even when they contain only one statement.
+Block bodies are preferred for constructors and methods, even when they contain only one statement.
 
 ```csharp
 public Example(int value) {
@@ -221,12 +220,12 @@ public int Calculate() {
 
 <details>
 <summary><strong>Type Inference</strong> — Selective use of <code>var</code></summary>
-  
+
 ---
-  
+
 `var` is preferred for built-in types and when the type is apparent from the initializer. Explicit types are suggested elsewhere.
 
-This avoids repeating obvious type information while keeping less apparent types visible at the declaration.
+This avoids repeating obvious type information and keeps the type visible when it would otherwise be unclear.
 
 ```csharp
 // Preferred: var for built-in types.
@@ -242,12 +241,11 @@ Example loadedExample = Load();
 
 </details>
 
-
 ## Getting Started
 
 > [!TIP]
 > The standard is easiest to adopt in new projects, where its conventions can be followed from the start.
-> Existing projects can also use it, but may require code changes or adjustments to the configuration.
+> Adopting it in an existing project may require code changes or adjustments to the configuration.
 
 ### Environment
 
@@ -268,10 +266,10 @@ Visual Studio is not required for command-line analysis. Other IDEs may differ i
 
 ### 1. Add the configuration
 
-Copy the [`.editorconfig`](.editorconfig) file to the repository root, above the projects that should follow the standard.
-It sets `root = true`, which stops inheritance from parent directories. Child configurations can still override its settings.
+Copy [`.editorconfig`](.editorconfig) to the repository root, above the projects that should follow the standard.
+The file sets `root = true` to stop inheritance from parent directories. Child configurations can still override its settings.
 
-If a root `.editorconfig` already exists, review its settings before replacing it and preserve any necessary project-specific configuration.
+If the repository already has a root `.editorconfig`, review it before replacing it and preserve any project-specific settings that are still needed.
 
 ```text
 Repository/
@@ -285,14 +283,12 @@ Repository/
         └── Example.Tests.csproj
 ```
 
-
 ### 2. Configure build-time analysis
 
 SDK code quality analyzers are enabled by default for .NET 10 projects.
-To also report supported code style diagnostics during builds, add the following property to the project's `.csproj` file.
-Alternatively, use a root `Directory.Build.props` to share it across projects.
+To include supported code style diagnostics in builds, add the property below to the project's `.csproj` file or to a root `Directory.Build.props` to share it across projects.
 
-In an existing file, add the property to an existing `<PropertyGroup>` or add the group shown below inside `<Project>`.
+If the file already exists, add the property to a `<PropertyGroup>` within its existing `<Project>` element.
 
 ```xml
 <Project>
@@ -305,15 +301,15 @@ In an existing file, add the property to an existing `<PropertyGroup>` or add th
 Rules configured as errors can cause the build to fail.
 
 > [!NOTE]
-> Visual Studio may skip analyzers in builds triggered by **Run** or **Debug**, allowing an application to launch even when an explicit **Build** or **Rebuild** fails on an analyzer error.
-> To disable this optimization, set `OptimizeImplicitlyTriggeredBuild` to `false` using the additional settings below.
+> Visual Studio may skip analyzers in builds triggered by **Run** or **Debug**. An application can therefore launch even when an explicit **Build** or **Rebuild** fails on an analyzer error.
+> To run analyzers in these builds as well, set `OptimizeImplicitlyTriggeredBuild` to `false`, as shown under **Additional build settings**.
 
 <details>
 <summary><strong>Additional build settings</strong></summary>
 
 ---
 
-Merge the entries you need into the same `.csproj` or `Directory.Build.props` file, uncommenting them as needed.
+Uncomment the entries you need and add them to the same `.csproj` or `Directory.Build.props` file.
 
 ```xml
 <Project>
@@ -341,20 +337,19 @@ Merge the entries you need into the same `.csproj` or `Directory.Build.props` fi
 </Project>
 ```
 
-The `CompilerVisibleProperty` entries supply the project information needed by
+The `CompilerVisibleProperty` entries provide the project information that
 [`IDE0130`](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0130)
-to check namespaces against the folder structure during command-line builds.
+needs to check namespace and folder alignment during command-line builds.
 
-Disabling implicit build optimization may increase the time needed to start the application.
-For more information, see the
+Setting `OptimizeImplicitlyTriggeredBuild` to `false` may increase the time needed to launch the application from Visual Studio.
+For details about these settings, see the
 [MSBuild properties reference](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props).
 
 </details>
 
-
 ### 3. Verify file detection
 
-Run the following command from the repository root, replacing the path with the project's actual `.csproj` path:
+From the repository root, run the command below with the path to the project's `.csproj` file:
 
 ```sh
 dotnet msbuild src/Example/Example.csproj -getItem:EditorConfigFiles
@@ -363,63 +358,61 @@ dotnet msbuild src/Example/Example.csproj -getItem:EditorConfigFiles
 Check the `EditorConfigFiles` list in the output:
 
 - **File found:** an `Identity` entry points to the repository's `.editorconfig`. Other configuration files may also be listed.
-- **File not found:** the list is empty (`"EditorConfigFiles": []`) or contains only other files.
+- **File not found:** the list is empty (`"EditorConfigFiles": []`) or does not include the expected `.editorconfig`.
 
-If the file is missing, confirm that it is named `.editorconfig`, is located in the project directory or one of its parent directories, and that the command targets the intended project.
+If the file is missing from the list, check its name and location. It must be named `.editorconfig` and placed in the project directory or a parent directory. Also check that the command targets the intended project.
 
-This command checks file discovery without building the project or modifying source code. The settings applied to each source file depend on matching sections and local overrides.
+This check confirms file discovery without building the project or changing source code. Which settings apply to each source file depends on matching sections and local overrides.
 
 > [!IMPORTANT]
 > If the file is found but Visual Studio does not apply its settings, open **Tools > Options** and make sure
 > [**Follow project coding conventions**](https://learn.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options#troubleshoot-editorconfig-settings)
 > is enabled. Then reopen the affected source file.
 
-
 ## Usage
 
-Compatible IDEs should detect `.editorconfig` automatically and apply its supported settings. Analyzer diagnostics appear in the editor according to the configured severity levels.
+Compatible IDEs should detect `.editorconfig` automatically and apply the settings they support. Analyzer diagnostics appear in the editor at their configured severity levels.
 
-Use the IDE's formatting command to apply formatting to existing code. With build-time analysis enabled, supported analyzer diagnostics are also reported during builds.
+Use the IDE's formatting command to format existing code. With build-time analysis enabled, builds also report supported analyzer diagnostics.
 
 ### Shared Exceptions
 
-The standard adjusts selected rules for common scenarios. Directory-based exceptions apply to all C# files in matching directories and their subdirectories.
+The standard adjusts selected rules to accommodate common scenarios. The table summarizes their scope and purpose. Directory-based exceptions cover all C# files in matching directories and their subdirectories.
 
 | Scenario | Scope | Matching names | Purpose |
 | --- | --- | --- | --- |
-| Tests | Directories | `Tests`, `tests`, `*.Tests` | Support testing conventions, including names with underscores and locally created test data. |
-| Fakes | Directories | `Fakes`, `fakes` | Allow simplified dependency implementations with fewer validation and optimization requirements. |
+| Tests | Directories | `Tests`, `tests`, `*.Tests` | Accommodate testing patterns such as names with underscores and locally created test data. |
+| Fakes | Directories | `Fakes`, `fakes` | Allow simplified dependency implementations with fewer validation and optimization checks. |
 | DTOs | Directories | `DTOs`, `Dtos`, `dtos` | Support data transfer representations, including string URIs and writable collections. |
 | EF Core migrations | Directories | `Migrations`, `migrations` | Reduce analyzer noise in scaffolded migration code. |
 | Dependency injection | Files | `DependencyInjection.cs` | Allow ignored registration return values and namespaces independent of folder structure. |
 
-Exceptions are selected by path, regardless of a class's role. When scopes overlap, later sections override only the settings they redefine. For example, `Tests/Fakes` inherits test exceptions and then applies the `Fakes` overrides.
+A file's path determines which exceptions apply, regardless of the class's role. When scopes overlap, later sections override only the settings they redefine. For example, C# files in `Tests/Fakes` inherit the test exceptions, then apply the `Fakes` overrides.
 
-See `Shared Exceptions` in [`.editorconfig`](.editorconfig) for the complete overrides. Adjust the selectors if the repository uses different directory or file names.
-
+The complete overrides are listed under `Shared Exceptions` in [`.editorconfig`](.editorconfig). Adjust the selectors if the repository uses different directory or file names.
 
 ### Customization
 
-Overrides can adjust both the baseline rules and the [shared exceptions](#shared-exceptions). Include only settings that need to change.
+Use either approach below to adjust the baseline rules or [shared exceptions](#shared-exceptions). Include only settings that should differ from the baseline.
 
 #### Option 1 — Root configuration
 
 ---
 
-The simplest approach is to add overrides to `Project-Specific Overrides` at the end of the root `.editorconfig`:
+The simplest approach is to add scoped overrides under `Project-Specific Overrides` at the end of the root `.editorconfig`:
 
 ```ini
 [src/Example/**.cs]
 dotnet_diagnostic.CA1707.severity = warning
 ```
 
-This sets `CA1707` to a warning for C# files in `src/Example` and its subdirectories. Paths are relative to `.editorconfig`, and later matching settings take precedence.
+This sets `CA1707` to a warning for C# files in `src/Example` and its subdirectories. Paths are relative to the root `.editorconfig`. When sections overlap, later values take precedence for the settings they redefine.
 
 #### Option 2 — Child configuration
 
 ---
 
-A child `.editorconfig` keeps project-specific settings alongside the code, making them easier to find and maintain. Omit `root = true` to inherit the shared baseline.
+A child `.editorconfig` keeps local overrides alongside the code they affect. This separates project-specific choices from the shared baseline and makes them easier to find and maintain. Omit `root = true` so the child inherits the baseline.
 
 ```text
 Repository/
@@ -430,18 +423,17 @@ Repository/
         └── Example.csproj
 ```
 
-For the same override, add the following to the child file:
+To apply the same override, add this to the child file in `src/Example`:
 
 ```ini
 [*.cs]
 dotnet_diagnostic.CA1707.severity = warning
 ```
 
-Here, `[*.cs]` matches C# files in that directory and its subdirectories. All settings not overridden by the child remain inherited.
-
+Here, `[*.cs]` matches C# files in that directory and its subdirectories. The child overrides only the settings it defines. All others remain inherited.
 
 ## License
 
 This repository is licensed under the [MIT License](LICENSE).
 
-A copy of the license is included at the end of [`.editorconfig`](.editorconfig) so it remains available when the configuration is copied into another project. Retain the copyright and license notice when copying or redistributing the file, including modified versions.
+The license is also embedded at the end of [`.editorconfig`](.editorconfig) so it stays with the file when copied into another project. Retain the copyright and license notice when copying or redistributing the file, including modified versions.
