@@ -256,7 +256,7 @@ Visual Studio is not required for command-line analysis. Other IDEs may differ i
 
 ### 1. Add the configuration
 
-Place [`.editorconfig`](.editorconfig) in the repository root so its rules apply to projects beneath it. The `root = true` setting stops inheritance from parent `.editorconfig` files, while nested configurations can still override individual settings.
+Place [`.editorconfig`](.editorconfig) in the repository root so its rules apply to matching files throughout the repository. The `root = true` setting stops inheritance from parent `.editorconfig` files, while nested configurations can still override individual settings.
 
 If the repository already contains a root `.editorconfig`, review and merge its settings rather than replacing it outright. This preserves project-specific conventions and avoids unintended changes.
 
@@ -345,7 +345,7 @@ Check the `EditorConfigFiles` list in the output:
 - **File found:** An `Identity` entry points to the expected `.editorconfig`. Other configuration files may also be listed.
 - **File not found:** The list is empty (`"EditorConfigFiles": []`) or does not include the expected file.
 
-If the file is missing, check its name, location, and the project targeted by the command. It must be named `.editorconfig` and located in the project directory or a parent directory.
+If the file is missing, check its name, location, and the project targeted by the command. For automatic discovery, the file must be named `.editorconfig` and placed in the project directory or one of its parent directories.
 
 This command checks file discovery without building the project or changing source code. It does not verify which rules apply to individual files; those depend on matching sections and local overrides.
 
