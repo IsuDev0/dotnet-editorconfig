@@ -405,9 +405,9 @@ The complete set of exceptions is defined under Shared Exceptions in .editorconf
 
 The configuration provides a reusable baseline that can be adapted to meet project-specific requirements. Individual rules and shared exceptions can be customized without modifying the entire standard. Only settings that differ from the baseline need to be overridden.
 
-#### Option 1 — Root configuration
-
 ---
+
+#### Option 1 — Root configuration
 
 For minor adjustments, add scoped overrides to the Project-Specific Overrides section at the end of the root .editorconfig. This approach keeps all settings in a single file and is suitable when only a few changes are needed.
 
@@ -418,9 +418,9 @@ dotnet_diagnostic.CA1707.severity = warning
 
 This overrides CA1707 to warning for C# files in src/Example and its subdirectories. File paths are relative to the root .editorconfig.
 
-#### Option 2 — Child configuration
-
 ---
+
+#### Option 2 — Child configuration
 
 For more extensive or independent adjustments, place a child .editorconfig in the directory containing the affected code. This keeps local overrides separate from the shared configuration while allowing them to inherit its settings.
 
