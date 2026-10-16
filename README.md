@@ -5,20 +5,20 @@
 ![C#](https://img.shields.io/badge/C%23-14-555555?style=flat-square&labelColor=333333)&nbsp;
 [![License](https://img.shields.io/badge/license-MIT-555555?style=flat-square&labelColor=333333)](#license)
 
-A reusable, opinionated coding standard for C#/.NET projects, defined in a single `.editorconfig` file. It brings together formatting, naming, code style, and code quality rules to promote consistency and maintainability without redefining the same standards for every project. The configuration includes .NET analyzer settings and scoped exceptions for common scenarios and can be customized to suit individual project and framework requirements.
+A reusable, opinionated coding standard for C#/.NET projects, defined in a single `.editorconfig` file. It combines formatting, naming, code style, and code quality rules to promote consistency and maintainability across projects. The configuration includes .NET analyzer settings and scoped exceptions for common scenarios and can be customized to meet project and framework requirements.
 
 ## Key Conventions
 
-Consistent coding conventions make code easier to read, understand, and maintain. Even small decisions about formatting, naming, and syntax affect how clearly code communicates its intent. This configuration approaches those decisions deliberately, balancing clarity, consistency, and conciseness without treating any particular style as universally correct.
-
-The sections below highlight selected conventions, explain why they were chosen, and illustrate their use through practical examples. These conventions can be [customized](#customization) to suit different projects or teams. Examples focus on individual conventions and may omit surrounding code.
+The following sections highlight selected coding conventions, explain the reasoning behind them, and illustrate their use with practical examples. Code examples may omit surrounding context to focus on specific conventions.
 
 <details>
-<summary><strong>Brace Style</strong> — K&amp;R</summary>
-
+<summary><strong>Brace Style</strong></summary>
+  
 ---
 
-Opening braces are placed on the same line as the declaration or statement they belong to, following the K&R style. Compared with styles that place opening braces on separate lines, this approach uses less vertical space, keeps related code closer together, and leaves more surrounding context visible.
+**Brace Style**
+
+Opening braces are placed on the same line as the declaration or statement they belong to, following the K&R style. While Allman is widely used in C#/.NET projects, both styles are valid choices, and neither is inherently superior. This configuration favors K&R because it uses less vertical space, keeps related code closer together, and leaves more surrounding context visible. Ultimately, consistency within a codebase matters more than the chosen brace style, and this preference can be customized to match existing project conventions.
 
 ```csharp
 using System;
@@ -35,16 +35,16 @@ internal static class Program {
 </details>
 
 <details>
-<summary><strong>Brace Usage</strong> — Required for multiline statements</summary>
+<summary><strong>Brace Usage</strong></summary>
 
 ---
 
-Braces are generally preferred for control statements because they make block boundaries explicit and help prevent mistakes when code is modified. In short, straightforward cases, however, they may add visual clutter without significantly improving readability. Omitting braces is therefore allowed in such cases, although using them remains recommended.
+**Brace Usage**
 
-Braces are required when a control statement's header or body spans multiple lines. Explicit block boundaries make longer statements easier to follow, especially when line wrapping makes their structure less obvious.
+Braces are generally recommended for control statements because they make block boundaries clear and reduce the risk of mistakes when code is modified. They may be omitted when both the header and body are simple and each fits on a single line, but are required if either spans multiple lines.
 
 ```csharp
-// Allowed: the condition and body statement each fit on one line.
+// Allowed: braces omitted for a simple statement.
 if (showGreeting)
     Console.WriteLine("Hello, World!");
 
@@ -67,10 +67,14 @@ if (showGreeting) {
 }
 ```
 
-For readability and easier debugging, braced control blocks should span multiple lines rather than be compressed into a single line. This keeps statements visually distinct and provides clearer locations for breakpoints. Compact property declarations may remain on one line. This formatting recommendation is separate from the enforced brace requirement.
+---
+
+**Brace Usage - Recommendations and exceptions**
+
+Control blocks with braces should span multiple lines, even when they contain only one statement. This keeps statements visually distinct, improves readability, and makes it easier to set breakpoints during debugging. This formatting preference is recommended rather than enforced. Compact property declarations may remain on one line.
 
 ```csharp
-// Avoid: placing the entire control block on one line.
+// Discouraged: placing the entire control block on one line.
 if (showGreeting) { Console.WriteLine("Hello, World!"); }
 
 // Allowed: a compact property declaration.
@@ -80,15 +84,13 @@ public string Name { get; set; } = string.Empty;
 </details>
 
 <details>
-<summary><strong>Field Visibility</strong> — Private fields</summary>
+<summary><strong>Field Visibility</strong></summary>
 
 ---
 
-Instance fields, including `readonly` fields, and mutable static fields must be private. Exposing them directly creates dependencies on a type's internal representation and can allow state to be modified without validation. Keeping these fields private preserves encapsulation, while properties and methods provide controlled access to the underlying data.
+**Disallowed field exposure**
 
-Constants and `static readonly` fields are exempt from this restriction because callers cannot reassign their values. They may be exposed directly when appropriate, although a `readonly` reference does not guarantee that the referenced object is immutable.
-
-**Non-private fields**
+All instance fields, including readonly fields, and all mutable static fields must be private. Exposing these fields directly creates dependencies on a type's internal implementation and may allow state changes without validation.
 
 ```csharp
 // Disallowed: exposes instance state directly.
@@ -98,7 +100,11 @@ public int Value;
 internal static int TotalCount;
 ```
 
+---
+
 **Controlled access**
+
+Keeping fields private supports encapsulation but does not guarantee it on its own. Properties and methods should provide controlled access to internal state, ensuring that changes can be validated and internal implementation details remain hidden.
 
 ```csharp
 // Keep the underlying state private.
@@ -118,13 +124,13 @@ public void Add(int amount) {
 </details>
 
 <details>
-<summary><strong>Field Naming</strong> — Prefixes and casing</summary>
+<summary><strong>Naming convention</strong></summary>
 
 ---
 
-Private instance fields, including `readonly` fields, use `_camelCase`, while private mutable static fields use `s_camelCase`. These prefixes distinguish instance state from shared mutable state at a glance, without requiring explicit qualification.
+**Naming convention - Private fields**
 
-Constants and `static readonly` fields use `PascalCase` regardless of accessibility. Unlike instance fields and mutable static fields, they may be exposed as part of a type's API when appropriate. A consistent naming convention makes their role recognizable at every accessibility level.
+Private instance fields, including readonly fields, use _camelCase, while private mutable static fields use s_camelCase. These prefixes distinguish instance state from shared mutable state at a glance, without requiring explicit qualification.
 
 ```csharp
 // Private instance fields: _camelCase.
@@ -135,7 +141,15 @@ private volatile int _status;
 // Private mutable static fields: s_camelCase.
 private static int s_totalCount;
 private static volatile int s_sharedStatus;
+```
 
+---
+
+**Naming convention - const & static readonly fields**
+
+Constants and static readonly fields use PascalCase regardless of accessibility. Both represent values that cannot be reassigned, making a shared naming convention appropriate. However, constants must be defined using compile-time values, while static readonly fields can be initialized at runtime.
+
+```csharp
 // Constants: PascalCase at every accessibility level.
 public const int PublicLimit = 100;
 internal const int InternalLimit = 100;
@@ -150,17 +164,15 @@ private static readonly int PrivateValue = 100;
 </details>
 
 <details>
-<summary><strong>Expression &amp; Block Bodies</strong> — Simple, focused members</summary>
+<summary><strong>Expression &amp; Block Bodies</strong></summary>
 
 ---
 
-Expression bodies keep simple operations concise, while block bodies provide a more explicit structure for procedural code. The goal is to balance readability and conciseness rather than favor the shortest syntax in every situation.
-
-Members should have clear, focused responsibilities regardless of body style. If an implementation becomes difficult to understand, extracting complex logic into a separate method may improve clarity. This is a design guideline: analyzers check syntax preferences, not whether a member has an appropriate responsibility.
-
 **Expression bodies**
 
-Expression bodies are required for properties, indexers, and accessors where possible, avoiding unnecessary block syntax for straightforward operations. They are also preferred for operators when the expression fits clearly on one line.
+Properties, indexers, and accessors should remain simple and focused on their intended responsibilities. Expression bodies are therefore required wherever possible to encourage straightforward implementations and discourage unnecessary logic. More complex operations should be delegated to dedicated methods.
+
+Operators are treated more flexibly, as some implementations may require multiple statements. However, single-line expression bodies remain preferred whenever practical.
 
 ```csharp
 // Properties, indexers, and accessors.
@@ -177,9 +189,11 @@ public int EditableValue {
 public static Example operator +(Example left, Example right) => new(left.Value + right.Value);
 ```
 
+---
+
 **Block bodies**
 
-Block bodies are preferred for constructors and methods, even when they contain a single statement. Their consistent structure keeps statements distinct and allows implementations to grow without changing their overall layout.
+Block bodies are preferred for constructors and methods, even when they contain only one statement. Unlike properties and accessors, these members often perform multiple operations, making a consistent block-based style easier to read and maintain. Expression bodies remain allowed for simple implementations, but switching between styles solely to reduce line count is generally discouraged.
 
 ```csharp
 public Example(int value) {
@@ -191,9 +205,11 @@ public int GetValue() {
 }
 ```
 
+---
+
 **Local functions & lambdas**
 
-Expression bodies are suggested for local functions and lambdas when they fit clearly on one line. This keeps small, self-contained operations concise; more complex implementations should prioritize clarity over compactness.
+Local functions and lambdas should perform small, focused operations within their surrounding scope. They keep related logic close to where it is needed without introducing unnecessary methods for code that is not reused elsewhere. Expression bodies are therefore preferred for simple implementations. When more complex logic requires multiple statements, block bodies must be used to maintain clarity and readability.
 
 ```csharp
 public int Calculate() {
@@ -210,13 +226,15 @@ public int Calculate() {
 </details>
 
 <details>
-<summary><strong>Type Inference</strong> — Selective use of <code>var</code></summary>
+<summary><strong>Implicit &amp; Explicit Typing</strong></summary>
 
 ---
 
-Type inference with `var` is preferred for built-in types and when the initializer makes the type apparent, such as during object creation. In these cases, an explicit type often repeats information without improving readability.
+**Using var**
 
-When the initializer does not clearly reveal the resulting type, an explicit declaration is preferred. This makes the type visible without requiring readers to inspect method signatures or other code. Because `var` uses compile-time type inference, the choice concerns readability rather than type safety.
+The use of var is preferred when the initializer makes the type immediately apparent, avoiding redundant declarations. This includes built-in types and explicit object creation, where repeating the type adds no meaningful information.
+
+When the resulting type is not immediately clear, an explicit declaration is preferred, especially if the type may be unexpected. Although the compiler infers types at compile time and IDEs can often reveal them, code should remain understandable without additional inspection. Explicit types improve readability and help prevent incorrect assumptions about the values being used.
 
 ```csharp
 // Preferred: var keeps built-in type declarations concise.
@@ -236,29 +254,33 @@ Example loadedExample = Load();
 
 This configuration can be adopted in both new and existing C#/.NET projects. New projects can follow its conventions from the outset, while existing codebases may require code changes or project-specific overrides.
 
+The following steps explain how to integrate the configuration into a project, enable code style analysis during builds, and verify that .editorconfig is correctly detected. Additional settings are also provided for projects that require more control over analyzer behavior and enforcement.
+
 ### Environment
 
-The configuration targets the following environment and has been verified with the listed SDK:
 
-- **Language and framework:** C# 14 / .NET 10
-- **Target IDE:** Visual Studio 2026+
-- **Tested SDK:** .NET SDK 10.0.401 (CLI)
 
 > [!NOTE]
-> The SDK version identifies the toolchain used for verification. `.editorconfig` does not select or install an SDK.
+> The configuration can also be used with older C# and .NET versions, although some rules may not be supported or applicable. Visual Studio is not required for command-line analysis, and support for individual settings and diagnostics may vary across IDEs.
+
+**Target environment**
+
+- **Language and framework:** C# 14 / .NET 10
+- **IDE:** Visual Studio 2026+
+- **Tested SDK:** .NET SDK 10.0.401 (CLI)
 
 **Analyzer dependencies**
 
 - [Microsoft.CodeAnalysis.NetAnalyzers](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers) (included in the .NET SDK)
 - [Microsoft.CodeAnalysis.CSharp.CodeStyle](https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.CodeStyle) (included in the .NET SDK)
 
-Visual Studio is not required for command-line analysis. Other IDEs may differ in their support for individual settings and diagnostics.
+---
 
 ### 1. Add the configuration
 
-Place [`.editorconfig`](.editorconfig) in the repository root so its rules apply to matching files throughout the repository. The `root = true` setting stops inheritance from parent `.editorconfig` files, while nested configurations can still override individual settings.
+Place .editorconfig in the repository root to apply its coding conventions throughout the project.
 
-If the repository already contains a root `.editorconfig`, review and merge its settings rather than replacing it outright. This preserves project-specific conventions and avoids unintended changes.
+If the repository already contains an .editorconfig file, review and merge the configurations rather than replacing the existing one. This helps preserve project-specific conventions and avoid unintended changes.
 
 ```text
 Repository/
@@ -271,6 +293,8 @@ Repository/
     └── Example.Tests/
         └── Example.Tests.csproj
 ```
+
+---
 
 ### 2. Configure build-time analysis
 
@@ -331,6 +355,8 @@ Setting `OptimizeImplicitlyTriggeredBuild` to `false` may increase application l
 For details, see the [MSBuild properties reference](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props).
 
 </details>
+
+---
 
 ### 3. Verify file detection
 
