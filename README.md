@@ -258,8 +258,6 @@ The following steps explain how to integrate the configuration into a project, e
 
 ### Environment
 
-
-
 > [!NOTE]
 > The configuration can also be used with older C# and .NET versions, although some rules may not be supported or applicable. Visual Studio is not required for command-line analysis, and support for individual settings and diagnostics may vary across IDEs.
 
@@ -278,9 +276,9 @@ The following steps explain how to integrate the configuration into a project, e
 
 ### 1. Add the configuration
 
-Place .editorconfig in the repository root to apply its coding conventions throughout the project.
+Place .editorconfig in the root directory of your project or solution.
 
-If the repository already contains an .editorconfig file, review and merge the configurations rather than replacing the existing one. This helps preserve project-specific conventions and avoid unintended changes.
+If an .editorconfig file already exists, you can replace it if its settings are no longer needed. Otherwise, review the existing configuration and transfer the relevant settings to the Project-Specific Overrides section of the new file, preserving their intended scope and resolving any conflicts.
 
 ```text
 Repository/
@@ -298,9 +296,9 @@ Repository/
 
 ### 2. Configure build-time analysis
 
-The .NET 10 SDK enables code quality analyzers by default, but code style diagnostics are not generally included in builds. Enabling build-time code style analysis helps enforce conventions beyond the editor and detect violations during compilation.
+Code quality analyzers are enabled by default in projects targeting .NET 5 or later, while code style diagnostics are generally disabled during builds. Enabling build-time code style analysis helps enforce coding conventions beyond the editor and detect violations during compilation.
 
-To include supported code style diagnostics in builds, set `EnforceCodeStyleInBuild` to `true` in the project's `.csproj` or a root `Directory.Build.props` to share the setting across projects. If the file already exists, add the property to an existing `<PropertyGroup>`.
+To enable this analysis, set EnforceCodeStyleInBuild to true in the project's .csproj file or a shared Directory.Build.props file to apply the setting across multiple projects. If the file already exists, add the property to an existing <PropertyGroup>.
 
 ```xml
 <Project>
@@ -313,46 +311,51 @@ To include supported code style diagnostics in builds, set `EnforceCodeStyleInBu
 Diagnostics configured as errors can cause the build to fail.
 
 > [!NOTE]
-> Visual Studio may skip analyzer checks in builds triggered by **Run** or **Debug**. An application may therefore launch even when an explicit **Build** or **Rebuild** fails on analyzer errors. To disable this optimization, set `OptimizeImplicitlyTriggeredBuild` to `false`, as described under **Additional build settings**.
+> Visual Studio may skip analyzer checks in builds triggered by Run or Debug. An application may therefore launch even when an explicit Build or Rebuild fails on analyzer errors. To disable this optimization, set OptimizeImplicitlyTriggeredBuild to false, as described under Additional build settings.
 
 <details>
 <summary><strong>Additional build settings</strong></summary>
 
 ---
 
-These optional settings provide more control over analyzer behavior and build enforcement. Uncomment only those you need and add them to the same `.csproj` or `Directory.Build.props`, preserving the existing project structure.
+**Analyzer Configuration**
+
+EnableNETAnalyzers explicitly enables the built-in .NET code quality analyzers, while AnalysisLevel determines which analyzer rule set is applied. Specifying an analysis level helps maintain a consistent set of diagnostics when upgrading to newer SDK versions.
 
 ```xml
-<Project>
-  <PropertyGroup>
-    <!-- Explicitly enable .NET code quality analyzers -->
-    <!-- <EnableNETAnalyzers>true</EnableNETAnalyzers> -->
-
-    <!-- Use the .NET 10 analyzer rule set with newer SDK versions -->
-    <!-- <AnalysisLevel>10.0</AnalysisLevel> -->
-
-    <!-- Run analyzers in Visual Studio Run/Debug builds -->
-    <!-- <OptimizeImplicitlyTriggeredBuild>false</OptimizeImplicitlyTriggeredBuild> -->
-
-    <!-- Treat compiler and analyzer warnings as errors -->
-    <!-- <TreatWarningsAsErrors>true</TreatWarningsAsErrors> -->
-  </PropertyGroup>
-
-  <!-- Expose project properties to IDE0130 during CLI builds -->
-  <!--
-  <ItemGroup>
-    <CompilerVisibleProperty Include="RootNamespace" />
-    <CompilerVisibleProperty Include="ProjectDir" />
-  </ItemGroup>
-  -->
-</Project>
+<PropertyGroup>
+  <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  <AnalysisLevel>10.0</AnalysisLevel>
+</PropertyGroup>
 ```
 
-The `CompilerVisibleProperty` entries supply the project information [`IDE0130`](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0130) needs to check namespace and folder alignment during command-line builds.
+---
 
-Setting `OptimizeImplicitlyTriggeredBuild` to `false` may increase application launch times in Visual Studio.
+**Build Behavior**
 
-For details, see the [MSBuild properties reference](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props).
+OptimizeImplicitlyTriggeredBuild controls Visual Studio's build optimization for Run and Debug operations. Setting it to false disables an optimization that may skip analyzer checks, although this can increase build and launch times.
+
+TreatWarningsAsErrors causes compiler and analyzer warnings to be treated as errors, preventing successful builds when such warnings are reported.
+
+```xml
+<PropertyGroup>
+  <OptimizeImplicitlyTriggeredBuild>false</OptimizeImplicitlyTriggeredBuild>
+  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+</PropertyGroup>
+```
+
+---
+
+**Analyzer Project Properties**
+
+Some analyzers require additional project information to function correctly during command-line builds. The CompilerVisibleProperty entries expose RootNamespace and ProjectDir to IDE0130, allowing it to verify namespace and folder alignment.
+
+```xml
+<ItemGroup>
+  <CompilerVisibleProperty Include="RootNamespace" />
+  <CompilerVisibleProperty Include="ProjectDir" />
+</ItemGroup>
+```
 
 </details>
 
@@ -360,35 +363,31 @@ For details, see the [MSBuild properties reference](https://learn.microsoft.com/
 
 ### 3. Verify file detection
 
-Before relying on the configuration, verify that MSBuild detects the intended `.editorconfig` for your project. From the repository root, run:
+Before relying on the configuration, verify that MSBuild correctly detects the intended .editorconfig file. Run the following command, replacing the example path with the path to your project's .csproj file:
 
 ```sh
 dotnet msbuild src/Example/Example.csproj -getItem:EditorConfigFiles
 ```
 
-Check the `EditorConfigFiles` list in the output:
+Check the EditorConfigFiles list in the output:
 
-- **File found:** An `Identity` entry points to the expected `.editorconfig`. Other configuration files may also be listed.
-- **File not found:** The list is empty (`"EditorConfigFiles": []`) or does not include the expected file.
+- **File found:** An Identity entry points to the expected .editorconfig. Other configuration files may also be listed.
+- **File not found:** The list is empty ("EditorConfigFiles": []) or does not include the expected file.
 
-If the file is missing, check its name, location, and the project targeted by the command. For automatic discovery, the file must be named `.editorconfig` and placed in the project directory or one of its parent directories.
-
-This command checks file discovery without building the project or changing source code. It does not verify which rules apply to individual files; those depend on matching sections and local overrides.
+If the file is not detected, verify its name, location, and the project path specified in the command. For automatic discovery, .editorconfig must be located in the project directory or one of its parent directories. This command does not build the project or modify source code, nor does it verify which rules apply to individual files, as these depend on matching sections and local overrides.
 
 > [!IMPORTANT]
-> If the file is detected but Visual Studio does not apply its settings, open **Tools > Options** and ensure [**Follow project coding conventions**](https://learn.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options#troubleshoot-editorconfig-settings) is enabled. Then reopen the affected source file.
+> If MSBuild detects the configuration but Visual Studio does not apply its settings, open Tools > Options > Text Editor > General and ensure Follow project coding conventions is enabled. Then reopen the affected source file.
 
 ## Usage
 
-Compatible IDEs detect `.editorconfig` automatically and apply the settings they support for formatting and code analysis. Analyzer diagnostics highlight violations at their configured severity levels, although support for individual rules may vary between IDEs.
-
-Adding `.editorconfig` does not automatically reformat existing code. Use your IDE's formatting tools to apply formatting conventions; other analyzer violations may require code fixes or manual changes. With build-time analysis enabled, supported diagnostics are also reported during builds.
+Compatible IDEs automatically detect .editorconfig and apply its supported formatting and code analysis settings. Violations are reported according to their configured severity levels, although support for individual rules may vary between IDEs. Existing code is not automatically reformatted, so formatting tools, code fixes, or manual changes may be needed to comply with the configuration. When build-time analysis is enabled, supported diagnostics are also reported during builds.
 
 ### Shared Exceptions
 
-Not all code benefits from the same analyzer rules. Tests, fakes, DTOs, EF Core migrations, and dependency injection code serve different purposes and may need different conventions. Scoped exceptions accommodate these cases, reducing unnecessary diagnostics while preserving the baseline elsewhere.
+The configuration includes predefined exceptions for common scenarios that may benefit from different analyzer settings. These scoped overrides help reduce unnecessary diagnostics while preserving the shared baseline elsewhere.
 
-The table summarizes each exception's scope and purpose. Directory-based exceptions apply to C# files in matching directories and their subdirectories.
+The table below outlines the scope and purpose of each exception.
 
 | Scenario | Scope | Matching names | Purpose |
 | --- | --- | --- | --- |
@@ -398,28 +397,28 @@ The table summarizes each exception's scope and purpose. Directory-based excepti
 | EF Core migrations | Directories | `Migrations`, `migrations` | Reduce unnecessary diagnostics in scaffolded migration code. |
 | Dependency injection | Files | `DependencyInjection.cs` | Allow unused registration return values and namespaces independent of folder structure. |
 
-Exceptions apply based on file paths, regardless of the types declared within them. When scopes overlap, later sections override only the settings they explicitly redefine. For example, files in `Tests/Fakes` inherit the test exceptions before applying the `Fakes` overrides.
+Exceptions apply based on file paths rather than the types declared within them. Directory-based exceptions apply to C# files in matching directories and their subdirectories. When multiple sections match a file, later sections override only the settings they explicitly redefine. For example, files in Tests/Fakes inherit the test exceptions, with any conflicting settings overridden by the Fakes section.
 
-The complete overrides are defined under `Shared Exceptions` in [`.editorconfig`](.editorconfig). Adjust the selectors to match your repository's directory and file naming conventions.
+The complete set of exceptions is defined under Shared Exceptions in .editorconfig.
 
 ### Customization
 
-The configuration is a reusable starting point rather than a fixed set of requirements. Individual rules and [shared exceptions](#shared-exceptions) can be adjusted to suit project-specific needs without redefining the entire standard. Only settings that differ from the baseline need to be overridden.
+The configuration provides a reusable baseline that can be adapted to meet project-specific requirements. Individual rules and shared exceptions can be customized without modifying the entire standard. Only settings that differ from the baseline need to be overridden.
 
 #### Option 1 — Root configuration
 
-The simplest approach is to add scoped overrides under `Project-Specific Overrides` at the end of the root `.editorconfig`. This keeps all rules in one file and works well when only a few adjustments are needed.
+For minor adjustments, add scoped overrides to the Project-Specific Overrides section at the end of the root .editorconfig. This approach keeps all settings in a single file and is suitable when only a few changes are needed.
 
 ```ini
 [src/Example/**.cs]
 dotnet_diagnostic.CA1707.severity = warning
 ```
 
-This sets `CA1707` to a warning for C# files in `src/Example` and its subdirectories. Paths are relative to the root `.editorconfig`. When sections overlap, later definitions take precedence for the settings they redefine.
+This overrides CA1707 to warning for C# files in src/Example and its subdirectories. File paths are relative to the root .editorconfig.
 
 #### Option 2 — Child configuration
 
-A child `.editorconfig` keeps local overrides alongside the affected code. This is useful when individual projects need more extensive or independent settings, while keeping the shared baseline separate.
+For more extensive or independent adjustments, place a child .editorconfig in the directory containing the affected code. This keeps local overrides separate from the shared configuration while allowing them to inherit its settings.
 
 ```text
 Repository/
@@ -430,17 +429,17 @@ Repository/
         └── Example.csproj
 ```
 
-To apply the same override, add the following to the child `.editorconfig`:
+To apply the same override, add the following to the child .editorconfig:
 
 ```ini
 [*.cs]
 dotnet_diagnostic.CA1707.severity = warning
 ```
 
-Here, `[*.cs]` matches C# files in that directory and its subdirectories. Omit `root = true` so the child inherits the parent configuration. Only explicitly overridden settings change; all others remain inherited.
+Here, [*.cs] matches C# files in the child configuration's directory and its subdirectories. Omit root = true to preserve inheritance from the parent .editorconfig. Only explicitly overridden settings change; all others remain inherited.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
 
-A copy of the license is also included at the end of [`.editorconfig`](.editorconfig) so it accompanies the configuration when reused in other projects. When copying, modifying, or redistributing the file, retain the copyright and permission notices as required by the license.
+The license text is also included at the end of .editorconfig to ensure that its copyright and permission notices accompany the configuration when reused. These notices must be retained when copying, modifying, or redistributing the file, as required by the license.
