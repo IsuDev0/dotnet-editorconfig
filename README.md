@@ -92,7 +92,7 @@ public string Name { get; set; } = string.Empty;
 
 All instance fields, including `readonly` fields, and all mutable `static` fields must be private. Exposing these fields directly creates dependencies on a type's internal implementation and may allow state changes without validation.
 
-Constants and `static readonly` fields are exceptions and may have any accessibility.
+`const` and `static readonly` fields are exceptions and may have any accessibility.
 
 ```csharp
 // Disallowed: exposes instance state directly.
