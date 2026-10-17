@@ -149,7 +149,7 @@ private static volatile int s_sharedStatus;
 
 **Constants and Static Readonly Fields**
 
-Constants and `static readonly` fields use `PascalCase` regardless of accessibility. Constants require compile-time values, while `static readonly` fields can be initialized at runtime and cannot be reassigned once type initialization is complete.
+`const` and `static readonly` fields use `PascalCase` regardless of accessibility. Constants require compile-time values, while `static readonly` fields can be initialized at runtime and cannot be reassigned once type initialization is complete.
 
 ```csharp
 // Constants: PascalCase at every accessibility level.
