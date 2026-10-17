@@ -132,7 +132,7 @@ public void Add(int amount) {
 
 **Private Fields**
 
-Private instance fields, including `readonly` fields, use `_camelCase`, while private mutable static fields use `s_camelCase`. These prefixes distinguish instance state from shared mutable state at a glance, without requiring explicit qualification.
+Private instance fields, including `readonly` fields, use `_camelCase`, while private mutable `static` fields use `s_camelCase`. These prefixes distinguish instance state from shared mutable state at a glance, without requiring explicit qualification.
 
 ```csharp
 // Private instance fields: _camelCase.
@@ -277,8 +277,8 @@ The following steps explain how to add the configuration, enable code style anal
 
 **Analyzer Dependencies**
 
-- [Microsoft.CodeAnalysis.NetAnalyzers](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers) (included in the .NET SDK)
-- [Microsoft.CodeAnalysis.CSharp.CodeStyle](https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.CodeStyle) (included in the .NET SDK)
+- [`Microsoft.CodeAnalysis.NetAnalyzers`](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers) (included in the .NET SDK)
+- [`Microsoft.CodeAnalysis.CSharp.CodeStyle`](https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.CodeStyle) (included in the .NET SDK)
 
 ---
 
@@ -341,7 +341,7 @@ Diagnostics configured as errors can cause the build to fail.
 
 **Build Behavior**
 
-`OptimizeImplicitlyTriggeredBuild` set to false disables an optimization that may skip analyzer checks during builds triggered by Run or Debug in Visual Studio. This can increase build and launch times.
+`OptimizeImplicitlyTriggeredBuild` set to `false` disables an optimization that may skip analyzer checks during builds triggered by **Run** or **Debug** in Visual Studio. This can increase build and launch times.
 
 `TreatWarningsAsErrors` causes compiler and analyzer warnings to be treated as errors, preventing successful builds when such warnings are reported.
 
@@ -356,9 +356,9 @@ Diagnostics configured as errors can cause the build to fail.
 
 **Analyzer Project Properties**
 
-Depending on the SDK version, RootNamespace and ProjectDir may be exposed to analyzers by default. If explicit configuration is required, the following example exposes these properties so that IDE0130 can check namespace and folder alignment.
+Depending on the SDK version, `RootNamespace` and `ProjectDir` may be exposed to analyzers by default. If explicit configuration is required, the following example exposes these properties so that `IDE0130` can check namespace and folder alignment.
 
-Place this <ItemGroup> directly inside the <Project> element of your .csproj or shared Directory.Build.props file. If an appropriate <ItemGroup> already exists, add the entries to it.
+Place this `<ItemGroup>` directly inside the `<Project>` element of your `.csproj` or shared `Directory.Build.props` file. If an appropriate `<ItemGroup>` already exists, add the entries to it.
 
 ```xml
 <ItemGroup>
@@ -384,14 +384,14 @@ Check the `EditorConfigFiles` list in the output:
 - **File Detected:** An `Identity` entry points to the expected `.editorconfig`. Other configuration files may also be listed.
 - **File Not Detected:** The list is empty (`"EditorConfigFiles": []`) or does not include the expected file.
 
-If the file is not detected, verify its name, location, and the project path specified in the command. Automatic discovery searches for .editorconfig files in each source file's directory and its parent directories. This command does not build the project or modify source code. It also does not verify which rules apply to individual files, as these depend on matching sections and local overrides.
+If the file is not detected, verify its name, location, and the project path specified in the command. Automatic discovery searches for `.editorconfig` files in each source file's directory and its parent directories. This command does not build the project or modify source code. It also does not verify which rules apply to individual files, as these depend on matching sections and local overrides.
 
 > [!IMPORTANT]
 > If MSBuild detects the configuration but Visual Studio does not apply its settings, open **Tools > Options > All Settings > Text Editor > General** and ensure [**Follow project coding conventions**](https://learn.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options#troubleshoot-editorconfig-settings) is enabled. Then reopen the affected source file.
 
 ## Usage
 
-Compatible IDEs automatically detect .editorconfig and apply its supported formatting and code analysis settings. Violations are reported according to their configured severity levels, although support for individual rules may vary between IDEs. Adding the configuration does not automatically reformat existing code, so formatting tools, code fixes, or manual changes may be needed. When build-time analysis is enabled, supported diagnostics are also reported during builds.
+Compatible IDEs automatically detect `.editorconfig` and apply its supported formatting and code analysis settings. Violations are reported according to their configured severity levels, although support for individual rules may vary between IDEs. Adding the configuration does not automatically reformat existing code, so formatting tools, code fixes, or manual changes may be needed. When build-time analysis is enabled, supported diagnostics are also reported during builds.
 
 ### Shared Exceptions
 
@@ -407,7 +407,7 @@ The table below outlines the scope and purpose of each exception.
 | EF Core migrations | Directories | `Migrations`, `migrations` | Reduce unnecessary diagnostics in scaffolded migration code. |
 | Dependency injection | Files | `DependencyInjection.cs` | Allow unused registration return values and namespaces independent of folder structure. |
 
-Exceptions apply based on file paths rather than the types declared within them. Directory-based exceptions apply to C# files in matching directories and their subdirectories. When multiple sections match a file, later sections override only the settings they explicitly redefine. For example, files in Tests/Fakes match both sections, with the later Fakes section taking precedence for conflicting settings.
+Exceptions apply based on file paths rather than the types declared within them. Directory-based exceptions apply to C# files in matching directories and their subdirectories. When multiple sections match a file, later sections override only the settings they explicitly redefine. For example, files in `Tests/Fakes` match both sections, with the later `Fakes` section taking precedence for conflicting settings.
 
 The complete set of exceptions is defined under `Shared Exceptions` in [`.editorconfig`](.editorconfig).
 
@@ -419,14 +419,14 @@ The configuration provides a reusable baseline that can be adapted to meet proje
 
 #### Option 1 — Root Configuration
 
-For minor adjustments, the simplest approach is to add scoped overrides to the Project-Specific Overrides section at the end of the root .editorconfig. This keeps the shared configuration and project-specific adjustments in one file.
+For minor adjustments, the simplest approach is to add scoped overrides to the `Project-Specific Overrides` section at the end of the root `.editorconfig`. This keeps the shared configuration and project-specific adjustments in one file.
 
 ```ini
 [src/Example/**.cs]
 dotnet_diagnostic.CA1707.severity = warning
 ```
 
-This sets the severity of CA1707 to warning for C# files in src/Example and its subdirectories. File paths are relative to the root .editorconfig.
+This sets the severity of `CA1707` to `warning` for C# files in `src/Example` and its subdirectories. File paths are relative to the root `.editorconfig`.
 
 ---
 
@@ -450,7 +450,7 @@ To apply the same override, add the following to the child `.editorconfig`:
 dotnet_diagnostic.CA1707.severity = warning
 ```
 
-Here, [*.cs] matches C# files in the child configuration's directory and its subdirectories. Omit root = true to preserve inheritance from the parent .editorconfig. Any settings you do not explicitly override retain their inherited values.
+Here, `[*.cs]` matches C# files in the child configuration's directory and its subdirectories. Omit `root = true` to preserve inheritance from the parent `.editorconfig`. Any settings you do not explicitly override retain their inherited values.
 
 ## License
 
