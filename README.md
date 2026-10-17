@@ -211,7 +211,7 @@ public int GetValue() {
 
 **Local Functions & Lambdas**
 
-Local functions and lambdas should perform small, focused operations. Expression bodies are preferred for simple implementations, while block bodies are required when multiple statements are needed.
+Local functions and lambdas should perform small, focused operations, keeping related logic close to where it is needed. Expression bodies are preferred for simple implementations, while block bodies are required when multiple statements are needed.
 
 ```csharp
 public int Calculate() {
