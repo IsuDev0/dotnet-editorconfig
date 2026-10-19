@@ -7,9 +7,9 @@
 
 A reusable, opinionated coding standard for C#/.NET projects, defined in a single `.editorconfig` file. It combines formatting, naming, code style, and code quality rules to promote consistency and maintainability across projects. The configuration includes .NET analyzer settings and scoped exceptions for common scenarios and can be customized to meet project and framework requirements.
 
-## Key Conventions
+## Coding Conventions
 
-The following sections highlight selected coding conventions, explain the reasoning behind them, and illustrate their use with practical examples. Code examples may omit surrounding context to focus on specific conventions.
+The following sections highlight selected conventions, explain the reasoning behind them, and illustrate their use with practical examples. Code examples may omit surrounding context to focus on specific conventions.
 
 <details>
 <summary><strong>Brace Style</strong></summary>
@@ -64,6 +64,14 @@ if (showGreeting) {
     Console.WriteLine(
         "Hello, {0}!",
         userName);
+}
+
+// Required: if either branch uses braces, both must use them.
+if (showGreeting) {
+    Console.WriteLine("Hello, World!");
+}
+else {
+    Console.WriteLine("The greeting is disabled.");
 }
 ```
 
@@ -262,7 +270,7 @@ Example loadedExample = Load();
 
 This configuration can be adopted in both new and existing C#/.NET projects. New projects can follow its conventions from the outset, while existing codebases may require code changes or project-specific overrides.
 
-The following steps explain how to add the configuration, enable code style analysis during builds, and verify that `.editorconfig` is correctly detected.
+The following steps explain how to add the configuration and enable code style analysis during builds.
 
 ### Environment
 
@@ -279,6 +287,14 @@ The following steps explain how to add the configuration, enable code style anal
 
 - [`Microsoft.CodeAnalysis.NetAnalyzers`](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers) (included in the .NET SDK)
 - [`Microsoft.CodeAnalysis.CSharp.CodeStyle`](https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.CodeStyle) (included in the .NET SDK)
+
+The `.editorconfig` file configures analyzers but does not install them. If a rule requires an additional analyzer, check its documentation and add the corresponding NuGet package to your project or shared build configuration, such as `Directory.Build.props`.
+
+To add a package to an individual project, use the following command, replacing `<PACKAGE_NAME>` with the package name and the example path with your project's `.csproj` file:
+
+```sh
+dotnet add src/Example/Example.csproj package <PACKAGE_NAME>
+```
 
 ---
 
@@ -369,29 +385,12 @@ Place this `<ItemGroup>` directly inside the `<Project>` element of your `.cspro
 
 </details>
 
----
-
-### 3. Verify file detection
-
-Before relying on the configuration, verify that MSBuild correctly detects the intended `.editorconfig` file. Run the following command, replacing the example path with the path to your project's `.csproj` file:
-
-```sh
-dotnet msbuild src/Example/Example.csproj -getItem:EditorConfigFiles
-```
-
-Check the `EditorConfigFiles` list in the output:
-
-- **File Detected:** An `Identity` entry points to the expected `.editorconfig`. Other configuration files may also be listed.
-- **File Not Detected:** The list is empty (`"EditorConfigFiles": []`) or does not include the expected file.
-
-If the file is not detected, verify its name, location, and the project path specified in the command. Automatic discovery searches for `.editorconfig` files in each source file's directory and its parent directories. This command does not build the project or modify source code. It also does not verify which rules apply to individual files, as these depend on matching sections and local overrides.
-
-> [!IMPORTANT]
-> If MSBuild detects the configuration but Visual Studio does not apply its settings, open **Tools > Options > All Settings > Text Editor > General** and ensure [**Follow project coding conventions**](https://learn.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options#troubleshoot-editorconfig-settings) is enabled. Then reopen the affected source file.
-
 ## Usage
 
 Compatible IDEs automatically detect `.editorconfig` and apply its supported formatting and code analysis settings. Violations are reported according to their configured severity levels, although support for individual rules may vary between IDEs. Adding the configuration does not automatically reformat existing code, so formatting tools, code fixes, or manual changes may be needed. When build-time analysis is enabled, supported diagnostics are also reported during builds.
+
+> [!IMPORTANT]
+> If Visual Studio does not apply the `.editorconfig` settings, open **Tools > Options > All Settings > Text Editor > General** and ensure [**Follow project coding conventions**](https://learn.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options#troubleshoot-editorconfig-settings) is enabled. Then reopen the affected source file.
 
 ### Shared Exceptions
 
