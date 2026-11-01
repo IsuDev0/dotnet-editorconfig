@@ -287,6 +287,7 @@ The following steps explain how to add the configuration and enable code style a
 
 - [`Microsoft.CodeAnalysis.NetAnalyzers`](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers) (included in the .NET SDK)
 - [`Microsoft.CodeAnalysis.CSharp.CodeStyle`](https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.CodeStyle) (included in the .NET SDK)
+- [`Microsoft.VisualStudio.Threading.Analyzers`](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers)
 
 The `.editorconfig` file configures analyzers but does not install them. If a rule requires an additional analyzer, check its documentation and add the corresponding NuGet package to your project or shared build configuration, such as `Directory.Build.props`.
 

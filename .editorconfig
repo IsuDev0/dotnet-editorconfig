@@ -1,11 +1,11 @@
 # =============================================================================
 #   . E D I T O R C O N F I G
 # =============================================================================
-#  Version:      v1.0.0
+#  Version:      v2.0.0
 #  Target:       C# 14 / .NET 10
 #  Target IDE:   Visual Studio 2026+
 #  Tested with:  .NET SDK 10.0.401 (CLI)
-#  Updated:      2026-10-02
+#  Updated:      2026-11-01
 #
 #  Author:
 #    Krystian Ozga (IsuDev0) - https://github.com/IsuDev0
@@ -19,6 +19,7 @@
 #  Analyzers:
 #    - Microsoft.CodeAnalysis.NetAnalyzers (included in the .NET SDK)
 #    - Microsoft.CodeAnalysis.CSharp.CodeStyle (included in the .NET SDK)
+#    - Microsoft.VisualStudio.Threading.Analyzers
 #
 #  License: MIT (full license text included below)
 # =============================================================================
@@ -836,6 +837,45 @@ dotnet_diagnostic.CA2266.severity = warning      # File-based program entry poin
 
 
 
+# Code Analysis — Threading
+# =======================================
+[*.{cs,csx,cake}]
+
+# Enforced
+dotnet_diagnostic.VSTHRD002.severity = error     # Avoid problematic synchronous waits
+dotnet_diagnostic.VSTHRD003.severity = error     # Avoid awaiting foreign Tasks
+dotnet_diagnostic.VSTHRD004.severity = error     # Await SwitchToMainThreadAsync
+dotnet_diagnostic.VSTHRD013.severity = error     # Apply CompletedTaskAttribute only to immutable members
+dotnet_diagnostic.VSTHRD100.severity = error     # Avoid async void methods
+dotnet_diagnostic.VSTHRD101.severity = error     # Avoid unsupported async delegates
+dotnet_diagnostic.VSTHRD106.severity = error     # Use InvokeAsync to raise async events
+dotnet_diagnostic.VSTHRD107.severity = error     # Await Task within using expression
+dotnet_diagnostic.VSTHRD108.severity = error     # Assert thread affinity unconditionally
+dotnet_diagnostic.VSTHRD109.severity = error     # Switch instead of assert in async methods
+dotnet_diagnostic.VSTHRD110.severity = error     # Observe result of async calls
+dotnet_diagnostic.VSTHRD011.severity = error     # Use AsyncLazy<T>
+dotnet_diagnostic.VSTHRD112.severity = error     # Implement System.IAsyncDisposable
+dotnet_diagnostic.VSTHRD113.severity = error     # Check for System.IAsyncDisposable
+dotnet_diagnostic.VSTHRD114.severity = error     # Avoid returning null from a Task-returning method
+dotnet_diagnostic.VSTHRD200.severity = error     # Use Async naming convention
+
+# Recommended
+dotnet_diagnostic.VSTHRD001.severity = warning   # Avoid legacy thread switching methods
+dotnet_diagnostic.VSTHRD010.severity = warning   # Invoke single-threaded types on Main thread
+dotnet_diagnostic.VSTHRD012.severity = warning   # Provide JoinableTaskFactory where allowed
+dotnet_diagnostic.VSTHRD105.severity = warning   # Avoid method overloads that assume TaskScheduler.Current
+dotnet_diagnostic.VSTHRD115.severity = warning   # Avoid creating a JoinableTaskContext with an explicit null SynchronizationContext
+
+# Disabled
+# Some rules are disabled because corresponding CA rules are already enabled.
+dotnet_diagnostic.VSTHRD103.severity = none      # Call async methods when in an async method
+dotnet_diagnostic.VSTHRD111.severity = none      # Use .ConfigureAwait(bool)
+dotnet_diagnostic.VSTHRD116.severity = none      # Use ThreadStaticAttribute only with static fields
+dotnet_diagnostic.VSTHRD117.severity = none      # Avoid initialization of ThreadStatic fields in a type initializer
+dotnet_diagnostic.VSTHRD202.severity = none      # Remove unnecessary async state machine
+
+
+
 # Shared Exceptions
 # =======================================
 # Overrides baseline rules for common cases that need different settings.
@@ -852,6 +892,8 @@ dotnet_diagnostic.CA1812.severity = none
 dotnet_diagnostic.CA1822.severity = none
 dotnet_diagnostic.CA1861.severity = none
 
+dotnet_diagnostic.VSTHRD200.severity = none
+
 dotnet_diagnostic.IDE0007.severity = suggestion
 dotnet_diagnostic.IDE0058.severity = none
 
@@ -864,6 +906,8 @@ dotnet_diagnostic.CA1707.severity = error
 dotnet_diagnostic.CA1812.severity = none
 dotnet_diagnostic.CA1822.severity = warning
 dotnet_diagnostic.CA1861.severity = none
+
+dotnet_diagnostic.VSTHRD200.severity = error
 
 dotnet_diagnostic.IDE0007.severity = suggestion
 dotnet_diagnostic.IDE0058.severity = silent
