@@ -1,6 +1,6 @@
 # ⚙️ C# / .NET EditorConfig
 
-![Version](https://img.shields.io/badge/version-1.0.0-555555?style=flat-square&labelColor=333333)&nbsp;
+![Version](https://img.shields.io/badge/version-2.0.0-555555?style=flat-square&labelColor=333333)&nbsp;
 ![.NET](https://img.shields.io/badge/.NET-10-555555?style=flat-square&labelColor=333333)&nbsp;
 ![C#](https://img.shields.io/badge/C%23-14-555555?style=flat-square&labelColor=333333)&nbsp;
 [![License](https://img.shields.io/badge/license-MIT-555555?style=flat-square&labelColor=333333)](#license)
