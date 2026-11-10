@@ -3,7 +3,7 @@
 # =============================================================================
 #  Version:      v2.0.0
 #  Target:       C# 14 / .NET 10
-#  Target IDE:   Visual Studio 2026+
+#  Editors:      Visual Studio 2026+, Visual Studio Code
 #  Tested with:  .NET SDK 10.0.401 (CLI)
 #  Updated:      2026-11-01
 #

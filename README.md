@@ -280,7 +280,7 @@ The following steps explain how to add the configuration and enable code style a
 **Target Environment**
 
 - **Language and Framework:** C# 14 / .NET 10
-- **Target IDE:** Visual Studio 2026+
+- **Editors:** Visual Studio 2026+, Visual Studio Code
 - **Tested SDK:** .NET SDK 10.0.401 (CLI)
 
 **Analyzer Dependencies**
