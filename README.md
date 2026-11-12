@@ -1,8 +1,8 @@
 # ⚙️ C# / .NET EditorConfig
 
-![Version](https://img.shields.io/badge/version-2.0.0-555555?style=flat-square&labelColor=333333)&nbsp;
-![.NET](https://img.shields.io/badge/.NET-10-555555?style=flat-square&labelColor=333333)&nbsp;
-![C#](https://img.shields.io/badge/C%23-14-555555?style=flat-square&labelColor=333333)&nbsp;
+![Version](https://img.shields.io/badge/version-3.0.0-555555?style=flat-square&labelColor=333333)&nbsp;
+![.NET](https://img.shields.io/badge/.NET-11-555555?style=flat-square&labelColor=333333)&nbsp;
+![C#](https://img.shields.io/badge/C%23-15-555555?style=flat-square&labelColor=333333)&nbsp;
 [![License](https://img.shields.io/badge/license-MIT-555555?style=flat-square&labelColor=333333)](#license)
 
 A reusable, opinionated coding standard for C#/.NET projects, defined in a single `.editorconfig` file. It combines formatting, naming, code style, and code quality rules to promote consistency and maintainability across projects. The configuration includes .NET analyzer settings and scoped exceptions for common scenarios and can be customized to meet project and framework requirements.
@@ -279,9 +279,9 @@ The following steps explain how to add the configuration and enable code style a
 
 **Target Environment**
 
-- **Language and Framework:** C# 14 / .NET 10
-- **Target IDE:** Visual Studio 2026+
-- **Tested SDK:** .NET SDK 10.0.401 (CLI)
+- **Language and Framework:** C# 15 / .NET 11
+- **Editors:** Visual Studio 2026+, Visual Studio Code
+- **Tested SDK:** .NET SDK 11.0.100 (CLI)
 
 **Analyzer Dependencies**
 
